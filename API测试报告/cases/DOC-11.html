@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>DOC-11 读取文档解析内容 - 知枢 AI API 测试</title><style>
+:root{
+  --bg:#f2f6f9; --card:#ffffff; --ink:#152238; --muted:#5d6b7d;
+  --line:#d9e2ea; --accent:#1f7a6b; --accent-soft:#e6f4f1;
+  --pass:#12805c; --pass-bg:#e6f7f0; --fail:#b42318; --fail-bg:#fdecea;
+  --warn:#9a6700; --warn-bg:#fff6dd; --code:#0f2233; --code-bg:#f4f7fa;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+  font-size:16px;line-height:1.65;}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1280px;margin:0 auto;padding:28px 30px 46px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 6px 20px rgba(21,34,56,.06);padding:26px 30px;margin-bottom:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:14px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.brand{font-weight:700;color:var(--accent);font-size:16px;letter-spacing:.5px}
+h1{font-size:30px;line-height:1.3;margin:0 0 10px}
+h2{font-size:21px;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--accent-soft)}
+h3{font-size:17px;margin:20px 0 10px}
+.sub{color:var(--muted);font-size:15px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+.meta .item{background:#f8fbfd;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.meta .k{font-size:12px;color:var(--muted);letter-spacing:.4px;text-transform:uppercase}
+.meta .v{font-size:15px;font-weight:600;word-break:break-all}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;
+  font-size:14px;font-weight:700;letter-spacing:.4px}
+.badge.pass{background:var(--pass-bg);color:var(--pass);border:1px solid #b7e4d3}
+.badge.fail{background:var(--fail-bg);color:var(--fail);border:1px solid #f5c2bd}
+.badge.info{background:var(--accent-soft);color:var(--accent);border:1px solid #bfe3dc}
+.badge.warn{background:var(--warn-bg);color:var(--warn);border:1px solid #f0d58a}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:18px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat .num{font-size:32px;font-weight:800;line-height:1.1}
+.stat .lab{font-size:13px;color:var(--muted);margin-top:4px}
+.stat.total .num{color:var(--ink)} .stat.ok .num{color:var(--pass)}
+.stat.bad .num{color:var(--fail)} .stat.rate .num{color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#f0f5f8;font-weight:700;color:#33475f;font-size:13px}
+tr:nth-child(even) td{background:#fbfdfe}
+.mono{font-family:Consolas,"Cascadia Mono",Menlo,monospace}
+.code{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow:auto;font-size:13px;line-height:1.6;white-space:pre-wrap;
+  word-break:break-word;font-family:Consolas,"Cascadia Mono",Menlo,monospace;color:#16324a}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kv .k{background:#f0f5f8;padding:10px 12px;font-size:13px;color:#33475f;font-weight:700;border-bottom:1px solid var(--line)}
+.kv .v{padding:10px 12px;border-bottom:1px solid var(--line);word-break:break-all}
+.kv > div:nth-last-child(-n+2){border-bottom:none}
+.check-ok{color:var(--pass);font-weight:800}
+.check-bad{color:var(--fail);font-weight:800}
+.note{background:var(--warn-bg);border:1px solid #f0d58a;color:#6b4b00;
+  border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
+.reqline{background:#102a43;color:#e6f4f1;border-radius:10px;padding:12px 16px;
+  font-family:Consolas,monospace;font-size:14px;word-break:break-all}
+.reqline .m{color:#7ee2c6;font-weight:800;margin-right:10px}
+.section{margin-top:24px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.pager a{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.wrap{padding:18px}}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.toc a{display:block;background:#f8fbfd;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:14px}
+.small{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;background:#eef3f7;border:1px solid var(--line);border-radius:6px;
+  padding:1px 8px;font-size:12px;color:#41536a;margin-right:6px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 6px}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">知枢 AI · API 功能测试证据</span>
+    <span><a href="../index.html">返回总览</a>　|　<a href="../all-cases.html">全部用例</a>　|　2026-11-22T19:58:15</span>
+  </div>
+  <main class="card">
+    <div style="display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap">
+      <div>
+        <div class="small">文档管理 · 用例 DOC-11</div>
+        <h1>读取文档解析内容</h1>
+        <div class="sub">验证页面、版面块与原文内容真实存在。</div>
+      </div>
+      <div style="text-align:right"><span class="badge pass">PASS 通过</span>
+        <div class="small" style="margin-top:8px">耗时 9 ms</div>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div class="item"><div class="k">请求</div><div class="v mono">GET http://127.0.0.1:8011/api/v1/documents/71f8776d-e81e-4949-9a66-d9df0dbab55f/content</div></div>
+      <div class="item"><div class="k">预期状态</div><div class="v mono">200</div></div>
+      <div class="item"><div class="k">实际状态</div><div class="v mono">200</div></div>
+      <div class="item"><div class="k">断言结果</div><div class="v">全部通过</div></div>
+    </div>
+
+    <div class="section"><h2>1. 测试请求</h2><div class="reqline"><span class="m">GET</span>http://127.0.0.1:8011/api/v1/documents/71f8776d-e81e-4949-9a66-d9df0dbab55f/content</div></div>
+    <div class="section"><h2>2. 响应状态与数据</h2><h3>HTTP 状态</h3><div class='kv'><div class='k'>状态码</div><div class='v mono'>200 OK</div></div><h3>响应头</h3><div class='kv'><div class='k'>content-type</div><div class='v mono'>application/json</div><div class='k'>content-length</div><div class='v mono'>7734</div></div><h3>响应数据</h3><div class='code'>{
+  &quot;document&quot;: {
+    &quot;id&quot;: &quot;71f8776d-e81e-4949-9a66-d9df0dbab55f&quot;,
+    &quot;name&quot;: &quot;RAG技术概览&quot;,
+    &quot;original_name&quot;: &quot;RAG技术概览.pdf&quot;,
+    &quot;file_type&quot;: &quot;pdf&quot;,
+    &quot;file_size&quot;: 7122,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;page_count&quot;: 3,
+    &quot;chunk_count&quot;: 6,
+    &quot;summary&quot;: null,
+    &quot;index_status&quot;: &quot;unknown&quot;,
+    &quot;last_error&quot;: null,
+    &quot;created_at&quot;: &quot;2026-11-18T21:05:57.987538&quot;,
+    &quot;updated_at&quot;: &quot;2026-11-18T21:06:01.746529&quot;
+  },
+  &quot;pages&quot;: [
+    {
+      &quot;id&quot;: &quot;3f060b0b-2687-4a57-b631-fd7b909aeb57&quot;,
+      &quot;page_no&quot;: 1,
+      &quot;width&quot;: 595.0,
+      &quot;height&quot;: 842.0,
+      &quot;content&quot;: &quot;检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。&quot;,
+      &quot;parse_method&quot;: &quot;text&quot;,
+      &quot;confidence&quot;: 1.0,
+      &quot;blocks&quot;: [
+        {
+          &quot;id&quot;: &quot;a777d72a-4a0e-40fc-9cae-35c11695e4f5&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 0,
+          &quot;content&quot;: &quot;检索增强生成（RAG）技术概览&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            60.8,
+            326.0,
+            82.4
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;23689ea8-3907-4898-b032-45b74e4b863a&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 1,
+          &quot;content&quot;: &quot;一、什么是 RAG&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            110.6,
+            173.0,
+            126.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;6076ce05-072f-49ae-9926-4e8524999f84&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 2,
+          &quot;content&quot;: &quot;检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            140.5,
+            529.0,
+            198.7
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;b2e2537d-3e29-430b-9b3c-dff3ab7e0d63&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 3,
+          &quot;content&quot;: &quot;二、核心组成&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            210.6,
+            134.0,
+            226.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;5f9c72d2-9015-4d1b-843c-e51145d1a239&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 4,
+          &quot;content&quot;: &quot;RAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            240.5,
+            441.0,
+            253.7
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;330132bc-2308-4171-8bdf-68eb7ea60d60&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 5,
+          &quot;content&quot;: &quot;三、检索质量的影响因素&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            310.6,
+            199.0,
+            326.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;801449bc-e439-46d0-8ecf-66cd35f0703b&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 6,
+          &quot;content&quot;: &quot;切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            340.5,
+            518.0,
+            383.7
+          ],
+          &quot;confidence&quot;: 1.0
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;47668a97-f58d-4d55-bb07-e97dc973b0fe&quot;,
+      &quot;page_no&quot;: 2,
+      &quot;width&quot;: 595.0,
+      &quot;height&quot;: 842.0,
+      &quot;content&quot;: &quot;四、答案溯源机制\n可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。&quot;,
+      &quot;parse_method&quot;: &quot;text&quot;,
+      &quot;confidence&quot;: 1.0,
+      &quot;blocks&quot;: [
+        {
+          &quot;id&quot;: &quot;8e513fa8-68cd-4ecc-bddd-e8b97e565509&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 0,
+          &quot;content&quot;: &quot;四、答案溯源机制&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            60.6,
+            160.0,
+            76.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;33861fa9-510e-45d2-8683-440b7fc17b5d&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 1,
+          &quot;content&quot;: &quot;可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            90.5,
+            529.0,
+            133.7
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;ecb7b104-6e2c-4a0b-84fb-ddd0eb706906&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 2,
+          &quot;content&quot;: &quot;五、常见误区&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            160.6,
+            134.0,
+            176.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;2393b842-027e-4ffd-aa60-9d2502453d21&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 3,
+          &quot;content&quot;: &quot;第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            190.5,
+            529.0,
+            248.7
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;3abf4ecc-8429-431f-9d91-c02c60497703&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 4,
+          &quot;content&quot;: &quot;六、面向个人的落地建议&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            260.6,
+            199.0,
+            276.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;f5dcdd36-3215-47e9-a209-1bd706dad314&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 5,
+          &quot;content&quot;: &quot;个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            290.5,
+            529.0,
+            333.7
+          ],
+          &quot;confidence&quot;: 1.0
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;2949795b-40a5-4314-ab5b-18c5e1656e22&quot;,
+      &quot;page_no&quot;: 3,
+      &quot;width&quot;: 595.0,
+      &quot;height&quot;: 842.0,
+      &quot;content&quot;: &quot;七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当保留来源证据，便于用户回到原文核对。&quot;,
+      &quot;parse_method&quot;: &quot;text&quot;,
+      &quot;confidence&quot;: 1.0,
+      &quot;blocks&quot;: [
+        {
+          &quot;id&quot;: &quot;9e074c00-c837-4b2c-8e54-242457116c77&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 0,
+          &quot;content&quot;: &quot;七、评测方法&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            60.6,
+            134.0,
+            76.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;8bc07a17-5fc6-4d5e-954a-a80b74d8ea6c&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 1,
+          &quot;content&quot;: &quot;构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            90.5,
+            463.0,
+            133.7
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;c38683da-5534-4153-8234-b96255ca7dca&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 2,
+          &quot;content&quot;: &quot;八、与知识图谱的关系&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            160.6,
+            186.0,
+            176.2
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;c248ec53-5749-4163-bf0a-199ec30af4bc&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 3,
+          &quot;content&quot;: &quot;向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            190.5,
+            496.0,
+            203.7
+          ],
+          &quot;confidence&quot;: 1.0
+        },
+        {
+          &quot;id&quot;: &quot;d66633c6-04f0-45d1-a384-032a7d400c56&quot;,
+          &quot;block_type&quot;: &quot;paragraph&quot;,
+          &quot;block_order&quot;: 4,
+          &quot;content&quot;: &quot;图谱中的每条关系都应当保留来源证据，便于用户回到原文核对。&quot;,
+          &quot;bbox&quot;: [
+            56.0,
+            220.5,
+            375.0,
+            233.7
+          ],
+          &quot;confidence&quot;: 1.0
+        }
+      ]
+    }
+  ]
+}</div></div>
+    <div class="section"><h2>3. 断言校验</h2><table><thead><tr><th>结果</th><th>断言项</th><th>实测值 / 说明</th></tr></thead><tbody><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>HTTP 状态码符合预期</td><td class='mono'>预期 [200]，实际 200</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>document.id 等于 &#x27;71f8776d-e81e-4949-9a66-d9df0dbab55f&#x27;</td><td class='mono'>document.id = &#x27;71f8776d-e81e-4949-9a66-d9df0dbab55f&#x27;，预期 &#x27;71f8776d-e81e-4949-9a66-d9df0dbab55f&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>pages 长度 &gt;= 1</td><td class='mono'>pages 长度 = 3，预期 &gt;= 1</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>pages.0.content 为真值</td><td class='mono'>pages.0.content = &#x27;检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>pages.0.blocks 长度 &gt;= 1</td><td class='mono'>pages.0.blocks 长度 = 7，预期 &gt;= 1</td></tr></tbody></table></div>
+    <div class="section"><h2>4. 等价 cURL</h2><div class='code'>curl -X GET &#x27;http://127.0.0.1:8011/api/v1/documents/71f8776d-e81e-4949-9a66-d9df0dbab55f/content&#x27;</div><p class='small'>密钥以 ***REDACTED*** 展示，命令仅用于说明请求结构。</p></div>
+    
+    <div class="pager"><div><a href='DOC-10.html'>← DOC-10 文档不存在</a></div><div><a href='DOC-12.html'>DOC-12 不存在文档的内容 →</a></div></div>
+  </main>
+  <div class="footer">本页面由真实接口响应自动生成 · 用例 DOC-11 · 不包含任何 API Key 明文</div>
+</div>
+</body></html>

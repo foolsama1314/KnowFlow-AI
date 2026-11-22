@@ -1,0 +1,53 @@
+{
+  "id": "SEA-13",
+  "group": "语义检索",
+  "title": "重建索引前状态",
+  "purpose": "读取重建进度，确认当前无进行中的重建任务。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/search/reindex/status"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 19,
+  "response": {
+    "running": false,
+    "processed": 0,
+    "total": 0,
+    "stage": "空闲",
+    "error": null,
+    "finished_at": null
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "90",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:36 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "running 等于 False",
+      "ok": true,
+      "detail": "running = False，预期 False"
+    },
+    {
+      "label": "stage 为真值",
+      "ok": true,
+      "detail": "stage = '空闲'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:36"
+}

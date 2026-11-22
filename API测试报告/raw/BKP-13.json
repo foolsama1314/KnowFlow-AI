@@ -1,0 +1,71 @@
+{
+  "id": "BKP-13",
+  "group": "备份恢复",
+  "title": "从备份恢复数据",
+  "purpose": "恢复默认备份，确认 SQLite、上传文件与本地 Qdrant 同步恢复，并生成预备份。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup/restore",
+    "files": [
+      {
+        "field": "file",
+        "filename": "knowflow-backup-20261122-195920.zip",
+        "size": 495452
+      }
+    ]
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 3320,
+  "response": {
+    "detail": "恢复失败：文件被占用，无法替换：qdrant（[WinError 5] 拒绝访问。: 'C:\\\\Users\\\\foolsama\\\\AppData\\\\Local\\\\Temp\\\\knowflow_api_test\\\\run_root\\\\custom_data\\\\qdrant' -> 'C:\\\\Users\\\\foolsama\\\\AppData\\\\Local\\\\Temp\\\\knowflow_api_test\\\\run_root\\\\custom_data\\\\.restore_old_7477a2f40d054542991add3cc74a9ee4\\\\qdrant'）。当前数据已回滚，恢复前的自动备份：pre-restore-20261122-195922.zip",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "490",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:21 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": false,
+      "detail": "预期 [200]，实际 422"
+    },
+    {
+      "label": "restored 等于 True",
+      "ok": false,
+      "detail": "restored = None，预期 True"
+    },
+    {
+      "label": "附加校验",
+      "ok": false,
+      "detail": "pre_restore_backup=None"
+    },
+    {
+      "label": "附加校验",
+      "ok": false,
+      "detail": "恢复文档数=None，恢复前=4"
+    },
+    {
+      "label": "附加校验",
+      "ok": false,
+      "detail": "恢复块数=None，恢复前=12"
+    },
+    {
+      "label": "qdrant_mode 等于 'local'",
+      "ok": false,
+      "detail": "qdrant_mode = None，预期 'local'"
+    }
+  ],
+  "passed": false,
+  "error": "",
+  "note": "若失败，后续 BKP-14~18 用于确认数据已安全回滚、未被破坏。",
+  "at": "2026-11-22T19:59:25"
+}

@@ -1,0 +1,99 @@
+{
+  "id": "EXT-01",
+  "group": "外部模型服务",
+  "title": "DeepSeek LLM 对话补全直连",
+  "purpose": "直接调用已配置的 DeepSeek OpenAI 兼容接口，确认 Key、地址、模型均真实可用。",
+  "request": {
+    "method": "POST",
+    "url": "https://api.deepseek.com/v1/chat/completions",
+    "headers": {
+      "Authorization": "***REDACTED***",
+      "Content-Type": "application/json"
+    },
+    "json": {
+      "model": "deepseek-chat",
+      "messages": [
+        {
+          "role": "user",
+          "content": "请只回复：连接成功"
+        }
+      ],
+      "temperature": 0
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 629,
+  "response": {
+    "id": "7db1cdb1-6d04-4922-b192-39da2244ccdb",
+    "object": "chat.completion",
+    "created": 1795348691,
+    "model": "deepseek-flash",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "连接成功"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 10,
+      "completion_tokens": 2,
+      "total_tokens": 12,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 10
+    },
+    "system_fingerprint": "bc19ba97cbe016479903222bb1578db6"
+  },
+  "response_headers": {
+    "server": "openresty",
+    "content-type": "application/json",
+    "vary": "accept-encoding,origin, access-control-request-method, access-control-request-headers",
+    "content-encoding": "gzip",
+    "access-control-allow-credentials": "true",
+    "x-ds-trace-id": "90045c16c3032ac1aec5c33133ea9fca",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "date": "Sun, 22 Nov 2026 11:58:11 GMT",
+    "eo-log-uuid": "16311396072870119648",
+    "eo-cache-status": "MISS"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "回复：'连接成功'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "object = 'chat.completion'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "tokens = 12"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "外部服务真实计费调用，响应中的 API Key 已脱敏。",
+  "at": "2026-11-22T19:58:07"
+}

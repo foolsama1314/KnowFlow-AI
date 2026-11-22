@@ -1,0 +1,560 @@
+{
+  "id": "CHAT-16",
+  "group": "智能问答",
+  "title": "流式知识库问答",
+  "purpose": "验证 SSE 事件顺序（meta→sources→delta→done）与最终回答。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea/messages",
+    "headers": {
+      "Accept": "text/event-stream"
+    },
+    "json": {
+      "question": "什么是检索增强生成？",
+      "stream": true,
+      "top_k": 5
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 3555,
+  "response": {
+    "events": [
+      {
+        "event": "meta",
+        "data": {
+          "model": "deepseek-chat",
+          "retrieval_count": 5,
+          "max_score": 0.7427,
+          "truncated": false,
+          "refusal": false
+        }
+      },
+      {
+        "event": "sources",
+        "data": {
+          "citations": [
+            {
+              "chunk_id": "ab045ff3-662f-4507-9b98-3c73b2ea29a0",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响",
+              "score": 0.7427,
+              "cited": false
+            },
+            {
+              "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 3,
+              "page_to": 3,
+              "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+              "score": 0.6083,
+              "cited": false
+            },
+            {
+              "chunk_id": "15bfb62a-ad7f-4cfe-acd4-d70635ff5da5",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 1,
+              "page_to": 2,
+              "snippet": "含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制",
+              "score": 0.585,
+              "cited": false
+            },
+            {
+              "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+              "score": 0.5794,
+              "cited": false
+            },
+            {
+              "chunk_id": "ec0f36e4-c495-4d65-8491-ac2a6f72d995",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 2,
+              "page_to": 2,
+              "snippet": "块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议",
+              "score": 0.5642,
+              "cited": false
+            }
+          ]
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "检索"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "增强"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "生成"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "（"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "Ret"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "rie"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "val"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "-Aug"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "mented"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": " Generation"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "，"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "简称"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": " R"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "AG"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "）"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "是一种"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "把"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "外部"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "知识"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "检索"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "与大"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "模型"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "生成"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "结合"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "的方法"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "。"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "系统"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "先从"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "个人"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "知识"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "库"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "中"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "检索"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "与"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "问题"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "相关的"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "文本"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "片段"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "，"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "再"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "把这些"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "片段"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "作为"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "上下文"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "交给"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "大"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "模型"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "，"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "由"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "模型"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "基于"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "证据"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "生成"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "答案"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "。["
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "1"
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "]"
+        }
+      },
+      {
+        "event": "done",
+        "data": {
+          "message_id": "fda8aec8-3939-4b44-a511-6364a443e02c",
+          "content": "检索增强生成（Retrieval-Augmented Generation，简称 RAG）是一种把外部知识检索与大模型生成结合的方法。系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型基于证据生成答案。[1]",
+          "citations": [
+            {
+              "chunk_id": "ab045ff3-662f-4507-9b98-3c73b2ea29a0",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响",
+              "score": 0.7427,
+              "cited": true
+            },
+            {
+              "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 3,
+              "page_to": 3,
+              "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+              "score": 0.6083,
+              "cited": false
+            },
+            {
+              "chunk_id": "15bfb62a-ad7f-4cfe-acd4-d70635ff5da5",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 1,
+              "page_to": 2,
+              "snippet": "含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制",
+              "score": 0.585,
+              "cited": false
+            },
+            {
+              "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+              "score": 0.5794,
+              "cited": false
+            },
+            {
+              "chunk_id": "ec0f36e4-c495-4d65-8491-ac2a6f72d995",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 2,
+              "page_to": 2,
+              "snippet": "块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议",
+              "score": 0.5642,
+              "cited": false
+            }
+          ],
+          "refusal": false,
+          "took_ms": 3547
+        }
+      }
+    ],
+    "content_type": "text/event-stream; charset=utf-8"
+  },
+  "response_headers": {
+    "connection": "close",
+    "transfer-encoding": "chunked",
+    "cache-control": "no-cache",
+    "content-type": "text/event-stream; charset=utf-8",
+    "date": "Sun, 22 Nov 2026 11:58:48 GMT",
+    "server": "uvicorn",
+    "vary": "Origin",
+    "x-accel-buffering": "no"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 200，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "事件=['meta', 'sources', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'delta', 'done']"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "包含 sources 事件"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "包含 delta 增量事件"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "包含 done 完成事件"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "meta.refusal=False"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "done 事件含最终正文"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "流式回答由服务端校验引用后落库。",
+  "at": "2026-11-22T19:58:52"
+}

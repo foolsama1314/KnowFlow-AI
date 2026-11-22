@@ -1,0 +1,42 @@
+{
+  "id": "REP-11",
+  "group": "研究报告",
+  "title": "下载不存在报告",
+  "purpose": "随机报告 ID 下载应返回 404。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/reports/ce317e2a58af4b729b03ff726ffeba84/download",
+    "query": {
+      "format": "md"
+    }
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 4,
+  "response": {
+    "detail": "报告不存在或已被删除",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "62",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "BKP-19",
+  "group": "备份恢复",
+  "title": "连续备份文件名唯一性",
+  "purpose": "连续两次创建备份，文件名必须唯一，不能因秒级时间戳相同而互相覆盖。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup",
+    "note": "连续两次 include_secrets=false，最多 3 组"
+  },
+  "expected": [
+    "两个不同的文件名"
+  ],
+  "actual_status": [
+    200,
+    200
+  ],
+  "reason": "",
+  "duration_ms": 0,
+  "response": {
+    "pairs": [
+      {
+        "name_1": "knowflow-backup-20261122-195922.zip",
+        "name_2": "knowflow-backup-20261122-195922.zip",
+        "same": true
+      }
+    ]
+  },
+  "response_headers": {},
+  "checks": [
+    {
+      "label": "所有备份请求均成功",
+      "ok": true,
+      "detail": "status=[200, 200]"
+    },
+    {
+      "label": "同一秒内两次备份文件名不同",
+      "ok": false,
+      "detail": "'knowflow-backup-20261122-195922.zip' vs 'knowflow-backup-20261122-195922.zip'"
+    }
+  ],
+  "passed": false,
+  "error": "",
+  "note": "备份名仅精确到秒；同一秒内连续备份会覆盖前一个文件。",
+  "at": "2026-11-22T19:59:22"
+}

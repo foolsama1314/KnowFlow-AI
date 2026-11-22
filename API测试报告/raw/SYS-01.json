@@ -1,0 +1,61 @@
+{
+  "id": "SYS-01",
+  "group": "系统",
+  "title": "健康检查",
+  "purpose": "验证服务、数据库与 Qdrant 向量库均处于可用状态。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/system/health"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 5,
+  "response": {
+    "status": "ok",
+    "version": "0.1.0",
+    "database": true,
+    "qdrant": true
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "63",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:08 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "status 等于 'ok'",
+      "ok": true,
+      "detail": "status = 'ok'，预期 'ok'"
+    },
+    {
+      "label": "database 等于 True",
+      "ok": true,
+      "detail": "database = True，预期 True"
+    },
+    {
+      "label": "qdrant 等于 True",
+      "ok": true,
+      "detail": "qdrant = True，预期 True"
+    },
+    {
+      "label": "version 为真值",
+      "ok": true,
+      "detail": "version = '0.1.0'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:09"
+}

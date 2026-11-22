@@ -1,0 +1,191 @@
+{
+  "id": "ANA-01",
+  "group": "多文档分析",
+  "title": "多文档对比分析",
+  "purpose": "真实检索两份文档并调用 DeepSeek 生成固定三节对比分析。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/analysis",
+    "json": {
+      "mode": "compare",
+      "document_ids": [
+        "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "1e52d76f-24a8-416e-b328-e339716fa228"
+      ],
+      "topic": "RAG 技术与项目实践",
+      "top_k": 3
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 8069,
+  "response": {
+    "mode": "compare",
+    "topic": "RAG 技术与项目实践",
+    "sections": [
+      {
+        "title": "共同观点",
+        "content": "- RAG 的核心思路是把外部知识检索与大模型生成结合，先检索相关文本片段，再作为上下文交给模型生成答案 [1]。\n- 都强调“主链路”的稳定性优先：即上传、解析、切块、向量化、检索、来源定位这条链路应先打通并保持稳定 [2][6]。\n- 都重视来源可核对：检索结果需展示文档名称、页码与原文片段，便于回到原文核对 [5][6]；知识图谱中的关系也应保留来源证据 [3]。\n- 都反对“假成功”：任何失败都必须记录在任务中心，不允许出现假成功状态 [2][4]。\n- 都关注检索评测：需补充检索评测集，统计 Top-5 命中率与召回率等指标 [3][4]。"
+      },
+      {
+        "title": "差异分析",
+        "content": "- 关注层面不同：资料 [1][2][3] 偏技术概览与方法论，给出 RAG 定义、四环节组成、评测方法与知识图谱关系；资料 [4][5][6] 偏项目周报，记录本周完成事项、遇到的问题与下周计划 [1][2][3][4][5][6]。\n- 评测指标表述不完全一致：概览提出构建 100 到 200 条真实查询、人工标注相关文本块，统计 Recall@20、Top-5 命中率与 MRR，并以 P95 作为检索延迟观察口径 [3]；周报只提到统计 Top-5 命中率与召回率 [4]。\n- 能力演进路径不同：概览建议个人资料规模千级、单机部署即可，先稳定主链路，再逐步增加跨文档问答、知识图谱与报告生成能力 [2]；周报把跨文档问答、引用校验、知识图谱表结构设计、补充评测集列为下周计划 [4][5]。\n- 问题暴露角度不同：周报具体列出扫描版 PDF 缺文本层需 OCR、切块过大导致检索噪声、切换向量模型需重建索引否则维度不一致报错等实践问题 [5]；概览则从检索质量影响因素、失败重试与任务状态管理等角度提示风险 [1][2]。"
+      },
+      {
+        "title": "关键知识点",
+        "content": "- RAG 定义：检索增强生成是把外部知识检索与大模型生成结合的方法，系统先从个人知识库检索相关文本片段，再交给大模型基于证据生成答案 [1]。\n- 核心组成四环节：文档解析、文本切块、向量化入库、检索与生成 [1]。\n- 个人落地建议：个人资料规模通常在千级，单机部署即可满足需求；优先保证上传、解析、切块、向量化、检索、来源定位主链路稳定，再逐步增加跨文档问答、知识图谱与报告生成能力 [2]。\n- 评测方法：构建 100 到 200 条真实查询，人工标注相关文本块，统计 Recall@20、Top-5 命中率与 MRR；所有指标必须实测后填写，不提前宣称达标；检索延迟以 P95 作为观察口径 [3]。\n- 与知识图谱的关系：向量检索解决相似性问题，知识图谱解决实体之间的关联问题；两者共享同一份解析结果，图谱中的每条关系都应保留来源证据，便于用户回到原文核对 [3]。\n- 工程风险点：缺少失败重试与任务状态管理会出现假成功 [2]；扫描版 PDF 缺少文本层需要 OCR 才能检索；部分文档切块过大导致检索片段噪声较多；切换向量模型后必须重建索引，否则维度不一致会报错 [5]。\n- 项目实践进展：已完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片；打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路；检索结果支持展示文档名称、页码与原文片段 [6]。"
+      }
+    ],
+    "citations": [
+      {
+        "chunk_id": "ab045ff3-662f-4507-9b98-3c73b2ea29a0",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响",
+        "score": 0.6466,
+        "cited": true
+      },
+      {
+        "chunk_id": "2eba4682-0464-4b95-a702-e48e59fc0fcb",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 2,
+        "page_to": 3,
+        "snippet": "集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法",
+        "score": 0.4773,
+        "cited": true
+      },
+      {
+        "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 3,
+        "page_to": 3,
+        "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+        "score": 0.452,
+        "cited": true
+      },
+      {
+        "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "document_name": "项目周报.md",
+        "file_type": "md",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+        "score": 0.5163,
+        "cited": true
+      },
+      {
+        "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "document_name": "项目周报.md",
+        "file_type": "md",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+        "score": 0.437,
+        "cited": true
+      },
+      {
+        "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "document_name": "项目周报.md",
+        "file_type": "md",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+        "score": 0.4136,
+        "cited": true
+      }
+    ],
+    "retrieval_count": 6,
+    "truncated": false,
+    "refusal": false,
+    "message": "",
+    "model": "deepseek-chat",
+    "took_ms": 8060
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "7555",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:54 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "mode 等于 'compare'",
+      "ok": true,
+      "detail": "mode = 'compare'，预期 'compare'"
+    },
+    {
+      "label": "topic 等于 'RAG 技术与项目实践'",
+      "ok": true,
+      "detail": "topic = 'RAG 技术与项目实践'，预期 'RAG 技术与项目实践'"
+    },
+    {
+      "label": "model 等于 'deepseek-chat'",
+      "ok": true,
+      "detail": "model = 'deepseek-chat'，预期 'deepseek-chat'"
+    },
+    {
+      "label": "retrieval_count >= 1",
+      "ok": true,
+      "detail": "retrieval_count = 6，预期 >= 1"
+    },
+    {
+      "label": "sections 长度 >= 3",
+      "ok": true,
+      "detail": "sections 长度 = 3，预期 >= 3"
+    },
+    {
+      "label": "sections.0.title 等于 '共同观点'",
+      "ok": true,
+      "detail": "sections.0.title = '共同观点'，预期 '共同观点'"
+    },
+    {
+      "label": "sections.1.title 等于 '差异分析'",
+      "ok": true,
+      "detail": "sections.1.title = '差异分析'，预期 '差异分析'"
+    },
+    {
+      "label": "sections.2.title 等于 '关键知识点'",
+      "ok": true,
+      "detail": "sections.2.title = '关键知识点'，预期 '关键知识点'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "每个小节均有内容"
+    },
+    {
+      "label": "refusal 等于 False",
+      "ok": true,
+      "detail": "refusal = False，预期 False"
+    },
+    {
+      "label": "took_ms >= 1",
+      "ok": true,
+      "detail": "took_ms = 8060，预期 >= 1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:02"
+}

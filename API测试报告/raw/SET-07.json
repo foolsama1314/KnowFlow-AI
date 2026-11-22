@@ -1,0 +1,54 @@
+{
+  "id": "SET-07",
+  "group": "系统设置",
+  "title": "测试目标参数非法",
+  "purpose": "target 只允许 llm/embedding，传入其他值应被 422 拒绝。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/settings/models/test",
+    "json": {
+      "target": "image"
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 3,
+  "response": {
+    "detail": [
+      {
+        "type": "literal_error",
+        "loc": [
+          "body",
+          "target"
+        ],
+        "msg": "Input should be 'llm' or 'embedding'",
+        "input": "image",
+        "ctx": {
+          "expected": "'llm' or 'embedding'"
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "164",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:12 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "参数校验场景。",
+  "at": "2026-11-22T19:58:12"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "DOC-01",
+  "group": "文档管理",
+  "title": "文档列表分页",
+  "purpose": "验证默认分页返回真实文档、总数与索引状态。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents",
+    "query": {
+      "page": 1,
+      "page_size": 20
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 14,
+  "response": {
+    "items": [
+      {
+        "id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "name": "项目周报",
+        "original_name": "项目周报.md",
+        "file_type": "md",
+        "file_size": 871,
+        "status": "completed",
+        "page_count": 1,
+        "chunk_count": 3,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-18T21:05:58.631754",
+        "updated_at": "2026-11-18T21:06:02.360387"
+      },
+      {
+        "id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+        "name": "课程笔记",
+        "original_name": "课程笔记.txt",
+        "file_type": "txt",
+        "file_size": 1054,
+        "status": "completed",
+        "page_count": 1,
+        "chunk_count": 2,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-18T21:05:58.064974",
+        "updated_at": "2026-11-18T21:06:01.023811"
+      },
+      {
+        "id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "name": "RAG技术概览",
+        "original_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "file_size": 7122,
+        "status": "completed",
+        "page_count": 3,
+        "chunk_count": 6,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-18T21:05:57.987538",
+        "updated_at": "2026-11-18T21:06:01.746529"
+      }
+    ],
+    "total": 3,
+    "page": 1,
+    "page_size": 20
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "1044",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "total >= 3",
+      "ok": true,
+      "detail": "total = 3，预期 >= 3"
+    },
+    {
+      "label": "page 等于 1",
+      "ok": true,
+      "detail": "page = 1，预期 1"
+    },
+    {
+      "label": "page_size 等于 20",
+      "ok": true,
+      "detail": "page_size = 20，预期 20"
+    },
+    {
+      "label": "items 长度 >= 3",
+      "ok": true,
+      "detail": "items 长度 = 3，预期 >= 3"
+    },
+    {
+      "label": "items 全部项满足条件",
+      "ok": true,
+      "detail": "items 共 3 项，不符合 0 项"
+    },
+    {
+      "label": "items 全部项满足条件",
+      "ok": true,
+      "detail": "items 共 3 项，不符合 0 项"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

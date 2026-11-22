@@ -1,0 +1,51 @@
+{
+  "id": "BKP-05",
+  "group": "备份恢复",
+  "title": "校验非 ZIP 文件",
+  "purpose": "上传 TXT 文件应返回 422 并提示仅支持 .zip。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup/validate",
+    "files": [
+      {
+        "field": "file",
+        "filename": "not-backup.txt",
+        "size": 5
+      }
+    ]
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 4,
+  "response": {
+    "detail": "请选择 .zip 格式的备份文件",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "76",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    },
+    {
+      "label": "detail 包含 '.zip'",
+      "ok": true,
+      "detail": "detail 包含 '.zip'：'请选择 .zip 格式的备份文件'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:20"
+}

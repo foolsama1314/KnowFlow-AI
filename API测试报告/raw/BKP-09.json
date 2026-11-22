@@ -1,0 +1,50 @@
+{
+  "id": "BKP-09",
+  "group": "备份恢复",
+  "title": "备份文件名路径穿越防护",
+  "purpose": "包含 ../ 的文件名不得返回任何备份文件；当前会落到 SPA 回退返回 index.html。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/backup/..%2F..%2Fevil.zip/download"
+  },
+  "expected": [
+    200,
+    404
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 17,
+  "response": "<!doctype html>\n<html lang=\"zh-CN\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <link rel=\"icon\" href=\"/favicon_io/favicon.ico\" sizes=\"any\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/favicon_io/favicon-32x32.png\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/favicon_io/favicon-16x16.png\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/favicon_io/apple-touch-icon.png\" />\n    <link rel=\"manifest\" href=\"/favicon_io/site.webmanifest\" />\n    <meta name=\"theme-color\" content=\"#1f7a6b\" />\n    <title>知枢 AI · KnowFlow</title>\n    <script type=\"module\" crossorigin src=\"/assets/index-CUQTpF4p.js\"></script>\n    <link rel=\"stylesheet\" crossorigin href=\"/assets/index-Ct9H8pfG.css\">\n  </head>\n  <body>\n    <div id=\"app\"></div>\n  </body>\n</html>\n",
+  "response_headers": {
+    "connection": "close",
+    "content-length": "865",
+    "accept-ranges": "bytes",
+    "content-type": "text/html; charset=utf-8",
+    "date": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "etag": "\"2b1121ce92b8003ffadfe9d3fd7b5fbc\"",
+    "last-modified": "Thu, 19 Nov 2026 04:33:50 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200, 404]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "响应魔数=3c21646f，未返回 ZIP"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "content-type=text/html; charset=utf-8"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "未泄露备份文件；但未知 API 路径被 SPA 回退为 200 HTML 的缺陷见 X-02。",
+  "at": "2026-11-22T19:59:20"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "SET-11",
+  "group": "系统设置",
+  "title": "chunk_size 上边界校验",
+  "purpose": "chunk_size 4001 应被拒绝。",
+  "request": {
+    "method": "PUT",
+    "url": "http://127.0.0.1:8011/api/v1/settings",
+    "json": {
+      "processing": {
+        "chunk_size": 4001,
+        "chunk_overlap": 40,
+        "default_top_k": 5,
+        "max_upload_mb": 200
+      }
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 19,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "body",
+          "processing",
+          "chunk_size"
+        ],
+        "msg": "Input should be less than or equal to 4000",
+        "input": 4001,
+        "ctx": {
+          "le": 4000
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "162",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

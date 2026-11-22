@@ -1,0 +1,39 @@
+{
+  "id": "CHAT-20",
+  "group": "智能问答",
+  "title": "删除后会话不可见",
+  "purpose": "刚删除的会话再次读取应返回 404。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea"
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 5,
+  "response": {
+    "detail": "问答会话不存在",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "53",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:54 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:54"
+}

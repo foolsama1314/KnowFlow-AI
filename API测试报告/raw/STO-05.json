@@ -1,0 +1,48 @@
+{
+  "id": "STO-05",
+  "group": "存储位置",
+  "title": "目标已有知识库数据",
+  "purpose": "目标目录已存在 database 时应返回 422，避免覆盖。",
+  "request": {
+    "method": "PUT",
+    "url": "http://127.0.0.1:8011/api/v1/system/storage",
+    "json": {
+      "data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\existing_data",
+      "migrate": false
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 6,
+  "response": {
+    "detail": "目标目录已存在知识库数据，请选择一个空目录，避免覆盖",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "118",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    },
+    {
+      "label": "detail 包含 '已存在知识库数据'",
+      "ok": true,
+      "detail": "detail 包含 '已存在知识库数据'：'目标目录已存在知识库数据，请选择一个空目录，避免覆盖'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

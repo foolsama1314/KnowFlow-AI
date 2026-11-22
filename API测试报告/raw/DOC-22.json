@@ -1,0 +1,91 @@
+{
+  "id": "DOC-22",
+  "group": "文档管理",
+  "title": "批量上传文档处理完成",
+  "purpose": "确认两个批量上传文档均完成解析与索引。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents",
+    "query": {
+      "keyword": "batch-",
+      "page_size": 100
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 22,
+  "response": {
+    "items": [
+      {
+        "id": "2c44b0d2-ba07-4294-a387-3e5a1f820f77",
+        "name": "batch-b",
+        "original_name": "batch-b.txt",
+        "file_type": "txt",
+        "file_size": 267,
+        "status": "completed",
+        "page_count": 1,
+        "chunk_count": 1,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-22T19:58:19.313728",
+        "updated_at": "2026-11-22T19:58:21.742007"
+      },
+      {
+        "id": "38f7a309-a1b4-4cd8-ad7c-e1157bd653dc",
+        "name": "batch-a",
+        "original_name": "batch-a.txt",
+        "file_type": "txt",
+        "file_size": 282,
+        "status": "completed",
+        "page_count": 1,
+        "chunk_count": 1,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-22T19:58:19.305501",
+        "updated_at": "2026-11-22T19:58:21.831324"
+      }
+    ],
+    "total": 2,
+    "page": 1,
+    "page_size": 100
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "688",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:21 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "total >= 2",
+      "ok": true,
+      "detail": "total = 2，预期 >= 2"
+    },
+    {
+      "label": "items 全部项满足条件",
+      "ok": true,
+      "detail": "items 共 2 项，不符合 0 项"
+    },
+    {
+      "label": "items 全部项满足条件",
+      "ok": true,
+      "detail": "items 共 2 项，不符合 0 项"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:21"
+}

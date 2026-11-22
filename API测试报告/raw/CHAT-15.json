@@ -1,0 +1,182 @@
+{
+  "id": "CHAT-15",
+  "group": "智能问答",
+  "title": "无关问题拒绝编造",
+  "purpose": "知识库无相关资料时，应明确拒答而不是用模型常识编造。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea/messages",
+    "json": {
+      "question": "今天北京天气怎么样？",
+      "stream": false,
+      "top_k": 5
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1759,
+  "response": {
+    "message": {
+      "id": "5b2b57fe-df41-4143-9f77-50b80a4ec86d",
+      "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+      "role": "assistant",
+      "content": "知识库中没有找到足够相关的内容，无法回答。",
+      "citations": [
+        {
+          "chunk_id": "2ae22696-5be2-4c0f-8f80-06d4105003b9",
+          "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+          "document_name": "RAG技术概览.pdf",
+          "file_type": "pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "snippet": "召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制\n可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区",
+          "score": 0.3417,
+          "cited": false
+        },
+        {
+          "chunk_id": "ec0f36e4-c495-4d65-8491-ac2a6f72d995",
+          "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+          "document_name": "RAG技术概览.pdf",
+          "file_type": "pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "snippet": "块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议",
+          "score": 0.3331,
+          "cited": false
+        },
+        {
+          "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+          "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+          "document_name": "项目周报.md",
+          "file_type": "md",
+          "page_from": 1,
+          "page_to": 1,
+          "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+          "score": 0.3265,
+          "cited": false
+        },
+        {
+          "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+          "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+          "document_name": "项目周报.md",
+          "file_type": "md",
+          "page_from": 1,
+          "page_to": 1,
+          "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+          "score": 0.3183,
+          "cited": false
+        },
+        {
+          "chunk_id": "2eba4682-0464-4b95-a702-e48e59fc0fcb",
+          "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+          "document_name": "RAG技术概览.pdf",
+          "file_type": "pdf",
+          "page_from": 2,
+          "page_to": 3,
+          "snippet": "集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法",
+          "score": 0.3181,
+          "cited": false
+        }
+      ],
+      "created_at": "2026-11-22T19:58:49.045734"
+    },
+    "citations": [
+      {
+        "chunk_id": "2ae22696-5be2-4c0f-8f80-06d4105003b9",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 2,
+        "page_to": 2,
+        "snippet": "召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制\n可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区",
+        "score": 0.3417,
+        "cited": false
+      },
+      {
+        "chunk_id": "ec0f36e4-c495-4d65-8491-ac2a6f72d995",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 2,
+        "page_to": 2,
+        "snippet": "块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议",
+        "score": 0.3331,
+        "cited": false
+      },
+      {
+        "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "document_name": "项目周报.md",
+        "file_type": "md",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+        "score": 0.3265,
+        "cited": false
+      },
+      {
+        "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "document_name": "项目周报.md",
+        "file_type": "md",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+        "score": 0.3183,
+        "cited": false
+      },
+      {
+        "chunk_id": "2eba4682-0464-4b95-a702-e48e59fc0fcb",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 2,
+        "page_to": 3,
+        "snippet": "集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法",
+        "score": 0.3181,
+        "cited": false
+      }
+    ],
+    "retrieval_count": 5,
+    "context_truncated": false,
+    "refusal": true,
+    "took_ms": 1752
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "6232",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:45 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "refusal 等于 True",
+      "ok": true,
+      "detail": "refusal = True，预期 True"
+    },
+    {
+      "label": "message.content 包含 '知识库中没有找到足够相关的内容'",
+      "ok": true,
+      "detail": "message.content 包含 '知识库中没有找到足够相关的内容'：'知识库中没有找到足够相关的内容，无法回答。'"
+    },
+    {
+      "label": "citations 全部项满足条件",
+      "ok": true,
+      "detail": "citations 共 5 项，不符合 0 项"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:49"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "X-04",
+  "group": "通用协议",
+  "title": "不支持的 HTTP 方法",
+  "purpose": "PATCH /documents 未定义，应返回 405。",
+  "request": {
+    "method": "PATCH",
+    "url": "http://127.0.0.1:8011/api/v1/documents"
+  },
+  "expected": [
+    405
+  ],
+  "actual_status": 405,
+  "reason": "Method Not Allowed",
+  "duration_ms": 15,
+  "response": {
+    "detail": "Method Not Allowed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "31",
+    "allow": "GET, HEAD",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [405]，实际 405"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

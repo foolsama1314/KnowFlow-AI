@@ -1,0 +1,39 @@
+{
+  "id": "DOC-31",
+  "group": "文档管理",
+  "title": "删除后文档不可见",
+  "purpose": "刚删除的文档再次查询应返回 404。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents/38f7a309-a1b4-4cd8-ad7c-e1157bd653dc"
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 5,
+  "response": {
+    "detail": "文档不存在或已被删除",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "62",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:23 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:23"
+}

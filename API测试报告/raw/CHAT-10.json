@@ -1,0 +1,55 @@
+{
+  "id": "CHAT-10",
+  "group": "智能问答",
+  "title": "空问题校验",
+  "purpose": "question 最小长度 1，空字符串应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea/messages",
+    "json": {
+      "question": "",
+      "stream": false
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 4,
+  "response": {
+    "detail": [
+      {
+        "type": "string_too_short",
+        "loc": [
+          "body",
+          "question"
+        ],
+        "msg": "String should have at least 1 character",
+        "input": "",
+        "ctx": {
+          "min_length": 1
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "148",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:45 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:47"
+}

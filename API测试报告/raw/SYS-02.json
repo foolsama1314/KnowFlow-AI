@@ -1,0 +1,114 @@
+{
+  "id": "SYS-02",
+  "group": "系统",
+  "title": "系统信息与模型配置状态",
+  "purpose": "确认运行时确实加载了已配置的 LLM 与 Embedding，且检索模式为语义检索。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/system/info"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 29,
+  "response": {
+    "app_name": "知枢 AI",
+    "version": "0.1.0",
+    "api_prefix": "/api/v1",
+    "data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\custom_data",
+    "data_dir_custom": true,
+    "database": "sqlite:///C:/Users/foolsama/AppData/Local/Temp/knowflow_api_test/run_root/custom_data/database/knowflow.db",
+    "qdrant_mode": "local",
+    "qdrant_collection": "document_chunks",
+    "embedding_provider": "openai_compatible",
+    "embedding_model": "jina-embeddings-v3",
+    "embedding_dim": 1024,
+    "embedding_degraded": false,
+    "retrieval_mode": "semantic",
+    "index_status": {
+      "provider": "openai_compatible",
+      "model": "jina-embeddings-v3",
+      "dimension": 1024,
+      "status": "completed",
+      "chunk_count": 11,
+      "error": null,
+      "updated_at": "2026-11-22T19:58:09.186509"
+    },
+    "llm_configured": true,
+    "ocr_available": false,
+    "supported_extensions": [
+      "pdf",
+      "docx",
+      "txt",
+      "md",
+      "markdown",
+      "jpg",
+      "jpeg",
+      "png",
+      "bmp",
+      "webp"
+    ],
+    "python_version": "3.12.10"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "871",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:08 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "llm_configured 等于 True",
+      "ok": true,
+      "detail": "llm_configured = True，预期 True"
+    },
+    {
+      "label": "embedding_degraded 等于 False",
+      "ok": true,
+      "detail": "embedding_degraded = False，预期 False"
+    },
+    {
+      "label": "retrieval_mode 等于 'semantic'",
+      "ok": true,
+      "detail": "retrieval_mode = 'semantic'，预期 'semantic'"
+    },
+    {
+      "label": "embedding_model 等于 'jina-embeddings-v3'",
+      "ok": true,
+      "detail": "embedding_model = 'jina-embeddings-v3'，预期 'jina-embeddings-v3'"
+    },
+    {
+      "label": "embedding_dim 等于 1024",
+      "ok": true,
+      "detail": "embedding_dim = 1024，预期 1024"
+    },
+    {
+      "label": "qdrant_mode 等于 'local'",
+      "ok": true,
+      "detail": "qdrant_mode = 'local'，预期 'local'"
+    },
+    {
+      "label": "index_status.status 等于 'completed'",
+      "ok": true,
+      "detail": "index_status.status = 'completed'，预期 'completed'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "支持的扩展名：['pdf', 'docx', 'txt', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'bmp', 'webp']"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:09"
+}

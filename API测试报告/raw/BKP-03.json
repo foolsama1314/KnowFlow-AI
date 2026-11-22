@@ -1,0 +1,61 @@
+{
+  "id": "BKP-03",
+  "group": "备份恢复",
+  "title": "下载备份包",
+  "purpose": "下载备份 ZIP，校验类型、魔数与大小。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/backup/knowflow-backup-20261122-195920.zip/download"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 10,
+  "response": {
+    "binary": true,
+    "size": 495452,
+    "sha256": "2dc6deae7a538373bb5f34dafd08b861504ce02269922f08ec4ecb347a34c740",
+    "magic": "504b0304",
+    "preview": "PK\u0003\u0004\u0014\u0000\u0000\u0000\b\u0000jv]oմY\u0000\u0000\u0000\u0003\u0000\u0014\u0000\u0000\u0000database/knowflow.db\u000bt\u001cy&:'g\u0018\u0012\f۲͑\u001cEB8\tB\u001c[)2O'\u0015\txV\u001c\u0002 \u0001o\"%%\u0012)2\b&%\u0000\u001fn6{oN&wmϹM>{_3\u0001A\"(\u0018Nw]~\u001b_~Of?MbwĪbNb81#W?!\u001e5ѶZ"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "495452",
+    "accept-ranges": "bytes",
+    "content-disposition": "attachment; filename=\"knowflow-backup-20261122-195920.zip\"",
+    "content-type": "application/zip",
+    "date": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "etag": "\"fd803d313a506e4cd7f29b58cd6d80be\"",
+    "last-modified": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "响应头 content-type 以 'application/zip' 开头",
+      "ok": true,
+      "detail": "content-type = 'application/zip'"
+    },
+    {
+      "label": "文件魔数为 504b0304",
+      "ok": true,
+      "detail": "magic = 504b0304，预期 504b0304"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "下载大小=495452，本地=495452"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:20"
+}

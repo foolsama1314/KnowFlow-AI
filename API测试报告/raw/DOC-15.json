@@ -1,0 +1,57 @@
+{
+  "id": "DOC-15",
+  "group": "文档管理",
+  "title": "上传 TXT 文档",
+  "purpose": "验证合法 TXT 文件可创建文档并返回处理任务。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/upload",
+    "files": [
+      {
+        "field": "file",
+        "filename": "api-test-upload.txt",
+        "size": 474
+      }
+    ]
+  },
+  "expected": [
+    201
+  ],
+  "actual_status": 201,
+  "reason": "Created",
+  "duration_ms": 0,
+  "response": {
+    "document_id": "a9538bd8-9ab5-4403-88a3-e0e1a61dfbde",
+    "task_id": "4f4ce4c5-4678-4664-a4bb-be2a7e21f36f",
+    "name": "api-test-upload.txt"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "132",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "实际 201"
+    },
+    {
+      "label": "返回文档 ID 与任务 ID",
+      "ok": true,
+      "detail": "document_id=a9538bd8-9ab5-4403-88a3-e0e1a61dfbde, task_id=4f4ce4c5-4678-4664-a4bb-be2a7e21f36f"
+    },
+    {
+      "label": "文件名称正确",
+      "ok": true,
+      "detail": "name=api-test-upload.txt"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "异步处理任务由后续用例等待完成。",
+  "at": "2026-11-22T19:58:15"
+}

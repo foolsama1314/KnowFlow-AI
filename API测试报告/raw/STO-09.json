@@ -1,0 +1,53 @@
+{
+  "id": "STO-09",
+  "group": "存储位置",
+  "title": "恢复后自定义标记已清除",
+  "purpose": "再次读取存储位置，custom 应为 false。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/system/storage"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 4,
+  "response": {
+    "data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\custom_data",
+    "default_data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\data",
+    "custom": false,
+    "exists": true,
+    "restart_required": false,
+    "message": ""
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "263",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "custom 等于 False",
+      "ok": true,
+      "detail": "custom = False，预期 False"
+    },
+    {
+      "label": "exists 等于 True",
+      "ok": true,
+      "detail": "exists = True，预期 True"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

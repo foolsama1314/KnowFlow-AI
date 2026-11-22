@@ -1,0 +1,58 @@
+{
+  "id": "BKP-11",
+  "group": "备份恢复",
+  "title": "默认备份不含 API Key",
+  "purpose": "解压默认备份，确认 settings.json 已剔除 llm_api_key 与 embedding_api_key。",
+  "request": {
+    "method": "ZIP 内部检查",
+    "url": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\default_backup.zip"
+  },
+  "expected": [
+    false
+  ],
+  "actual_status": "文件检查",
+  "reason": "",
+  "duration_ms": 0,
+  "response": {
+    "settings_keys": [
+      "chunk_overlap",
+      "chunk_size",
+      "default_top_k",
+      "embedding_base_url",
+      "embedding_dim",
+      "embedding_model",
+      "embedding_provider",
+      "llm_base_url",
+      "llm_model",
+      "llm_provider",
+      "max_upload_mb",
+      "rag_context_chars",
+      "rag_min_score",
+      "rag_top_k"
+    ],
+    "has_llm_api_key": false,
+    "has_embedding_api_key": false
+  },
+  "response_headers": {},
+  "checks": [
+    {
+      "label": "备份内 settings.json 不含 llm_api_key",
+      "ok": true,
+      "detail": "llm_api_key 存在=False"
+    },
+    {
+      "label": "备份内 settings.json 不含 embedding_api_key",
+      "ok": true,
+      "detail": "embedding_api_key 存在=False"
+    },
+    {
+      "label": "模型配置仍保留",
+      "ok": true,
+      "detail": "embedding_model=jina-embeddings-v3"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "密钥值不落报告，仅记录是否存在。",
+  "at": "2026-11-22T19:59:22"
+}

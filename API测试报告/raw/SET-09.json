@@ -1,0 +1,63 @@
+{
+  "id": "SET-09",
+  "group": "系统设置",
+  "title": "错误 Embedding Key 不降级",
+  "purpose": "临时提交无效 Key 测试向量服务，确认返回 ok=false 而不是降级成本地向量。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/settings/models/test",
+    "json": {
+      "target": "embedding",
+      "models": {
+        "embedding_api_key": "***REDACTED***"
+      }
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1448,
+  "response": {
+    "ok": false,
+    "target": "embedding",
+    "message": "向量服务返回错误：HTTP 401: {\"detail\": \"Invalid API key. Verify your API key at https://jina.ai/api-dashboard/key-manager or generate a new one.\", \"request_id\": \"aa9a46ffcbb86a53aee0dad7a704d6c6\", \"code\": \"AUTH_INVALID_API_KEY\"}",
+    "latency_ms": 1427,
+    "detail": {}
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "325",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:12 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "ok 等于 False",
+      "ok": true,
+      "detail": "ok = False，预期 False"
+    },
+    {
+      "label": "message 不等于 ''",
+      "ok": true,
+      "detail": "message = '向量服务返回错误：HTTP 401: {\"detail\": \"Invalid API key. Verify your API key at https://jina.ai/api-dashboard/key-manager or generate a new one.\", \"request_id\": \"aa9a46ffcbb86a53aee0dad7a704d6c6\", \"code\": \"AUTH_INVALID_API_KEY\"}'，不应等于 ''"
+    },
+    {
+      "label": "detail 等于 {}",
+      "ok": true,
+      "detail": "detail = {}，预期 {}"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

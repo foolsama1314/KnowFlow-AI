@@ -1,0 +1,71 @@
+{
+  "id": "DOC-04",
+  "group": "文档管理",
+  "title": "按文件类型筛选",
+  "purpose": "file_type=pdf 时返回结果必须全部为 PDF。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents",
+    "query": {
+      "file_type": "pdf",
+      "page_size": 100
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 40,
+  "response": {
+    "items": [
+      {
+        "id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "name": "RAG技术概览",
+        "original_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "file_size": 7122,
+        "status": "completed",
+        "page_count": 3,
+        "chunk_count": 6,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-18T21:05:57.987538",
+        "updated_at": "2026-11-18T21:06:01.746529"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 100
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "384",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "items 全部项满足条件",
+      "ok": true,
+      "detail": "items 共 1 项，不符合 0 项"
+    },
+    {
+      "label": "total >= 1",
+      "ok": true,
+      "detail": "total = 1，预期 >= 1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

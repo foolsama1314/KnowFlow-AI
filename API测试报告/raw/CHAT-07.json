@@ -1,0 +1,54 @@
+{
+  "id": "CHAT-07",
+  "group": "智能问答",
+  "title": "读取会话详情",
+  "purpose": "读取指定会话及其消息列表。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 9,
+  "response": {
+    "session": {
+      "id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+      "title": "API 测试会话",
+      "created_at": "2026-11-22T19:58:43.853634",
+      "updated_at": "2026-11-22T19:58:43.853634"
+    },
+    "messages": []
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "182",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:43 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "session.id 等于 '72061525-ca57-406b-80f6-1cf6b91af2ea'",
+      "ok": true,
+      "detail": "session.id = '72061525-ca57-406b-80f6-1cf6b91af2ea'，预期 '72061525-ca57-406b-80f6-1cf6b91af2ea'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "messages 为数组"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:43"
+}

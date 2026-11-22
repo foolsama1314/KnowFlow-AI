@@ -1,0 +1,70 @@
+{
+  "id": "ANA-10",
+  "group": "多文档分析",
+  "title": "无关主题的拒答保护",
+  "purpose": "用与资料无关的主题请求分析，观察是否触发相关性阈值拒答。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/analysis",
+    "json": {
+      "mode": "summary",
+      "document_ids": [
+        "71f8776d-e81e-4949-9a66-d9df0dbab55f"
+      ],
+      "topic": "如何制作法式甜点",
+      "top_k": 3
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1865,
+  "response": {
+    "mode": "summary",
+    "topic": "如何制作法式甜点",
+    "sections": [],
+    "citations": [],
+    "retrieval_count": 3,
+    "truncated": false,
+    "refusal": true,
+    "message": "检索到的内容相关性不足（最高相似度 0.34，当前拒答阈值 0.50），为避免编造，未生成分析。",
+    "model": "deepseek-chat",
+    "took_ms": 1850
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "311",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:07 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "mode=summary"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "sections 为数组"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "refusal=True, sections=0"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "若未拒答且生成了内容，需要人工复核是否越出资料范围。 实测触发拒答：检索到的内容相关性不足（最高相似度 0.34，当前拒答阈值 0.50），为避免编造，未生成分析。",
+  "at": "2026-11-22T19:59:09"
+}

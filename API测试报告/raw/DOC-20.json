@@ -1,0 +1,56 @@
+{
+  "id": "DOC-20",
+  "group": "文档管理",
+  "title": "空文件校验",
+  "purpose": "上传 0 字节 TXT 应返回 422 并明确提示内容为空。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/upload",
+    "files": [
+      {
+        "field": "file",
+        "filename": "empty.txt",
+        "size": 0
+      }
+    ]
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 16,
+  "response": {
+    "detail": "文件内容为空，无法解析",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "73",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    },
+    {
+      "label": "code 等于 'processing_failed'",
+      "ok": true,
+      "detail": "code = 'processing_failed'，预期 'processing_failed'"
+    },
+    {
+      "label": "detail 包含 '为空'",
+      "ok": true,
+      "detail": "detail 包含 '为空'：'文件内容为空，无法解析'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:19"
+}

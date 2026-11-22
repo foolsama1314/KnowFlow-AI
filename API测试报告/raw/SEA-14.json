@@ -1,0 +1,55 @@
+{
+  "id": "SEA-14",
+  "group": "语义检索",
+  "title": "全量重建索引",
+  "purpose": "使用当前 Jina 模型对全部文本块真实重建索引，返回块数与维度。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/search/reindex"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 2072,
+  "response": {
+    "chunks": 12,
+    "dimension": 1024,
+    "elapsed_ms": 2052
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "48",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:36 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "chunks >= 11",
+      "ok": true,
+      "detail": "chunks = 12，预期 >= 11"
+    },
+    {
+      "label": "dimension 等于 1024",
+      "ok": true,
+      "detail": "dimension = 1024，预期 1024"
+    },
+    {
+      "label": "elapsed_ms >= 1",
+      "ok": true,
+      "detail": "elapsed_ms = 2052，预期 >= 1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:38"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "STO-03",
+  "group": "存储位置",
+  "title": "当前目录重复校验",
+  "purpose": "切换到当前目录应返回 422。",
+  "request": {
+    "method": "PUT",
+    "url": "http://127.0.0.1:8011/api/v1/system/storage",
+    "json": {
+      "data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\custom_data",
+      "migrate": false
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 26,
+  "response": {
+    "detail": "该目录已是当前存储位置，无需修改",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "88",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    },
+    {
+      "label": "detail 包含 '当前存储位置'",
+      "ok": true,
+      "detail": "detail 包含 '当前存储位置'：'该目录已是当前存储位置，无需修改'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

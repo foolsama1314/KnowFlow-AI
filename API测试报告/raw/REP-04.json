@@ -1,0 +1,54 @@
+{
+  "id": "REP-04",
+  "group": "研究报告",
+  "title": "报告列表 limit 上界",
+  "purpose": "limit 最大 100，101 应返回 422。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/reports",
+    "query": {
+      "limit": 101
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 24,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "query",
+          "limit"
+        ],
+        "msg": "Input should be less than or equal to 100",
+        "input": "101",
+        "ctx": {
+          "le": 100
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "144",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

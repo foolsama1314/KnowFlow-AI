@@ -1,0 +1,64 @@
+{
+  "id": "DOC-27",
+  "group": "文档管理",
+  "title": "重新解析文档",
+  "purpose": "对已上传文档触发重新解析，应返回 202 与新任务。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/a9538bd8-9ab5-4403-88a3-e0e1a61dfbde/reprocess"
+  },
+  "expected": [
+    202
+  ],
+  "actual_status": 202,
+  "reason": "Accepted",
+  "duration_ms": 42,
+  "response": {
+    "id": "4159eff2-577b-488c-8077-e66f95984f03",
+    "document_id": "a9538bd8-9ab5-4403-88a3-e0e1a61dfbde",
+    "task_type": "parse",
+    "status": "pending",
+    "progress": 0,
+    "current_step": "等待执行",
+    "error_message": null,
+    "retry_count": 0,
+    "document_name": "api-test-upload.txt",
+    "started_at": null,
+    "finished_at": null,
+    "created_at": "2026-11-22T19:58:22.007900"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "334",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:21 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [202]，实际 202"
+    },
+    {
+      "label": "id 为真值",
+      "ok": true,
+      "detail": "id = '4159eff2-577b-488c-8077-e66f95984f03'"
+    },
+    {
+      "label": "document_id 等于 'a9538bd8-9ab5-4403-88a3-e0e1a61dfbde'",
+      "ok": true,
+      "detail": "document_id = 'a9538bd8-9ab5-4403-88a3-e0e1a61dfbde'，预期 'a9538bd8-9ab5-4403-88a3-e0e1a61dfbde'"
+    },
+    {
+      "label": "document_name 等于 'api-test-upload.txt'",
+      "ok": true,
+      "detail": "document_name = 'api-test-upload.txt'，预期 'api-test-upload.txt'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:22"
+}

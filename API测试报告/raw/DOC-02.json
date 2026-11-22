@@ -1,0 +1,86 @@
+{
+  "id": "DOC-02",
+  "group": "文档管理",
+  "title": "分页参数生效",
+  "purpose": "page_size=2 时仅返回 2 条，total 保持全量。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents",
+    "query": {
+      "page": 1,
+      "page_size": 2
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 25,
+  "response": {
+    "items": [
+      {
+        "id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "name": "项目周报",
+        "original_name": "项目周报.md",
+        "file_type": "md",
+        "file_size": 871,
+        "status": "completed",
+        "page_count": 1,
+        "chunk_count": 3,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-18T21:05:58.631754",
+        "updated_at": "2026-11-18T21:06:02.360387"
+      },
+      {
+        "id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+        "name": "课程笔记",
+        "original_name": "课程笔记.txt",
+        "file_type": "txt",
+        "file_size": 1054,
+        "status": "completed",
+        "page_count": 1,
+        "chunk_count": 2,
+        "summary": null,
+        "index_status": "indexed",
+        "last_error": null,
+        "created_at": "2026-11-18T21:05:58.064974",
+        "updated_at": "2026-11-18T21:06:01.023811"
+      }
+    ],
+    "total": 3,
+    "page": 1,
+    "page_size": 2
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "705",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "items 长度 = 2"
+    },
+    {
+      "label": "total >= 3",
+      "ok": true,
+      "detail": "total = 3，预期 >= 3"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

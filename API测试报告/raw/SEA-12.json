@@ -1,0 +1,100 @@
+{
+  "id": "SEA-12",
+  "group": "语义检索",
+  "title": "检索历史",
+  "purpose": "确认历史记录真实记录了此前的查询、top_k 与结果数。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/search/history"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 4,
+  "response": [
+    {
+      "query": "RAG",
+      "top_k": 10,
+      "result_count": 6,
+      "at": "2026-11-22T19:58:36.578347"
+    },
+    {
+      "query": "RAG",
+      "top_k": 10,
+      "result_count": 0,
+      "at": "2026-11-22T19:58:35.021711"
+    },
+    {
+      "query": "RAG",
+      "top_k": 10,
+      "result_count": 6,
+      "at": "2026-11-22T19:58:33.408610"
+    },
+    {
+      "query": "RAG",
+      "top_k": 50,
+      "result_count": 12,
+      "at": "2026-11-22T19:58:31.796536"
+    },
+    {
+      "query": "检索增强生成的定义和组成",
+      "top_k": 3,
+      "result_count": 3,
+      "at": "2026-11-22T19:58:30.150165"
+    },
+    {
+      "query": "RAG 的核心流程是什么",
+      "top_k": 5,
+      "result_count": 5,
+      "at": "2026-11-22T19:58:28.662769"
+    },
+    {
+      "query": "赤焰清单-20261122",
+      "top_k": 10,
+      "result_count": 10,
+      "at": "2026-11-22T19:58:25.212326"
+    },
+    {
+      "query": "蓝鲸协议-20261122",
+      "top_k": 5,
+      "result_count": 5,
+      "at": "2026-11-22T19:58:19.251737"
+    }
+  ],
+  "response_headers": {
+    "connection": "close",
+    "content-length": "718",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:36 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "响应 长度 >= 1",
+      "ok": true,
+      "detail": " 长度 = 8，预期 >= 1"
+    },
+    {
+      "label": "响应 全部项满足条件",
+      "ok": true,
+      "detail": " 共 8 项，不符合 0 项"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "历史中包含本轮真实查询"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:36"
+}

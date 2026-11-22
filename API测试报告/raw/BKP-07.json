@@ -1,0 +1,51 @@
+{
+  "id": "BKP-07",
+  "group": "备份恢复",
+  "title": "校验空备份文件",
+  "purpose": "上传 0 字节 ZIP 应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup/validate",
+    "files": [
+      {
+        "field": "file",
+        "filename": "empty.zip",
+        "size": 0
+      }
+    ]
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 5,
+  "response": {
+    "detail": "备份文件为空",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "58",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    },
+    {
+      "label": "detail 包含 '为空'",
+      "ok": true,
+      "detail": "detail 包含 '为空'：'备份文件为空'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:20"
+}

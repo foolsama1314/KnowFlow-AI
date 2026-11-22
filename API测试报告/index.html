@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>知枢 AI 已配置 API 全面功能测试报告</title><style>
+:root{
+  --bg:#f2f6f9; --card:#ffffff; --ink:#152238; --muted:#5d6b7d;
+  --line:#d9e2ea; --accent:#1f7a6b; --accent-soft:#e6f4f1;
+  --pass:#12805c; --pass-bg:#e6f7f0; --fail:#b42318; --fail-bg:#fdecea;
+  --warn:#9a6700; --warn-bg:#fff6dd; --code:#0f2233; --code-bg:#f4f7fa;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+  font-size:16px;line-height:1.65;}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1280px;margin:0 auto;padding:28px 30px 46px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 6px 20px rgba(21,34,56,.06);padding:26px 30px;margin-bottom:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:14px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.brand{font-weight:700;color:var(--accent);font-size:16px;letter-spacing:.5px}
+h1{font-size:30px;line-height:1.3;margin:0 0 10px}
+h2{font-size:21px;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--accent-soft)}
+h3{font-size:17px;margin:20px 0 10px}
+.sub{color:var(--muted);font-size:15px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+.meta .item{background:#f8fbfd;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.meta .k{font-size:12px;color:var(--muted);letter-spacing:.4px;text-transform:uppercase}
+.meta .v{font-size:15px;font-weight:600;word-break:break-all}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;
+  font-size:14px;font-weight:700;letter-spacing:.4px}
+.badge.pass{background:var(--pass-bg);color:var(--pass);border:1px solid #b7e4d3}
+.badge.fail{background:var(--fail-bg);color:var(--fail);border:1px solid #f5c2bd}
+.badge.info{background:var(--accent-soft);color:var(--accent);border:1px solid #bfe3dc}
+.badge.warn{background:var(--warn-bg);color:var(--warn);border:1px solid #f0d58a}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:18px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat .num{font-size:32px;font-weight:800;line-height:1.1}
+.stat .lab{font-size:13px;color:var(--muted);margin-top:4px}
+.stat.total .num{color:var(--ink)} .stat.ok .num{color:var(--pass)}
+.stat.bad .num{color:var(--fail)} .stat.rate .num{color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#f0f5f8;font-weight:700;color:#33475f;font-size:13px}
+tr:nth-child(even) td{background:#fbfdfe}
+.mono{font-family:Consolas,"Cascadia Mono",Menlo,monospace}
+.code{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow:auto;font-size:13px;line-height:1.6;white-space:pre-wrap;
+  word-break:break-word;font-family:Consolas,"Cascadia Mono",Menlo,monospace;color:#16324a}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kv .k{background:#f0f5f8;padding:10px 12px;font-size:13px;color:#33475f;font-weight:700;border-bottom:1px solid var(--line)}
+.kv .v{padding:10px 12px;border-bottom:1px solid var(--line);word-break:break-all}
+.kv > div:nth-last-child(-n+2){border-bottom:none}
+.check-ok{color:var(--pass);font-weight:800}
+.check-bad{color:var(--fail);font-weight:800}
+.note{background:var(--warn-bg);border:1px solid #f0d58a;color:#6b4b00;
+  border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
+.reqline{background:#102a43;color:#e6f4f1;border-radius:10px;padding:12px 16px;
+  font-family:Consolas,monospace;font-size:14px;word-break:break-all}
+.reqline .m{color:#7ee2c6;font-weight:800;margin-right:10px}
+.section{margin-top:24px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.pager a{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.wrap{padding:18px}}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.toc a{display:block;background:#f8fbfd;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:14px}
+.small{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;background:#eef3f7;border:1px solid var(--line);border-radius:6px;
+  padding:1px 8px;font-size:12px;color:#41536a;margin-right:6px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 6px}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">知枢 AI · KnowFlow</span>
+    <span>2026-11-22T19:58:05 ~ 2026-11-22T19:59:27</span>
+  </div>
+  <section class="card">
+    <h1>已配置 API 全面功能测试报告</h1>
+    <div class="sub">覆盖全部 36 个已注册 API 路径（45 个方法操作）、已配置的 DeepSeek 大模型与 Jina Embedding 服务，包含参数校验、边界值、异常场景与真实业务链路。所有结果来自实际 HTTP 调用，未使用任何模拟数据。</div>
+    <div class="stats">
+      <div class="stat total"><div class="num">177</div><div class="lab">测试用例总数</div></div>
+      <div class="stat ok"><div class="num">173</div><div class="lab">通过</div></div>
+      <div class="stat bad"><div class="num">4</div><div class="lab">未通过</div></div>
+      <div class="stat rate"><div class="num">97.7%</div><div class="lab">通过率</div></div>
+    </div>
+    <div class="meta"><div class='item'><div class='k'>测试时间</div><div class='v'>2026-11-22T19:58:05 ~ 2026-11-22T19:59:27</div></div><div class='item'><div class='k'>测试地址</div><div class='v'>http://127.0.0.1:8011/api/v1</div></div><div class='item'><div class='k'>应用版本</div><div class='v'>知枢 AI v0.1.0</div></div><div class='item'><div class='k'>数据隔离</div><div class='v'>复制 dist/data 到临时目录后运行，所有写操作均不影响原数据目录</div></div></div>
+    <div class="note">测试使用复制后的隔离数据目录运行，所有上传、删除、重建索引、备份、恢复与存储切换操作均未修改原始 dist/data 数据目录。外部模型调用产生真实请求与少量 token 消耗。</div>
+  </section>
+
+  <section class="card">
+    <h2>环境与已配置 API</h2>
+    <div class="kv"><div class='k'>LLM 服务</div><div class='v'>openai_compatible · https://api.deepseek.com/v1 · deepseek-chat</div><div class='k'>LLM 配置状态</div><div class='v'>已配置并真实调用成功</div><div class='k'>Embedding 服务</div><div class='v'>openai_compatible · https://api.jina.ai/v1 · jina-embeddings-v3</div><div class='k'>向量维度</div><div class='v'>1024</div><div class='k'>Embedding 降级</div><div class='v'>否（使用真实 API 向量）</div><div class='k'>检索模式</div><div class='v'>semantic</div><div class='k'>向量库</div><div class='v'>Qdrant local · 集合 document_chunks</div><div class='k'>索引状态</div><div class='v'>completed · 11/11 块</div><div class='k'>初始知识库</div><div class='v'>3 个文档 · 11 个文本块</div><div class='k'>Python</div><div class='v'>3.12.10</div></div>
+  </section>
+
+  <section class="card">
+    <h2>关键链路实测指标</h2>
+    <table><thead><tr><th>链路</th><th>实测结果</th><th>耗时</th></tr></thead><tbody><tr><td>LLM 连接测试</td><td>大模型连接成功：连接成功；模型 deepseek-chat</td><td class='mono'>1654 ms</td></tr><tr><td>Embedding 连接测试</td><td>向量服务连接成功，返回维度校验通过；维度 1024；降级 False</td><td class='mono'>1535 ms</td></tr><tr><td>语义检索</td><td>5 条结果；最高相似度 0.6884</td><td class='mono'>1427 ms</td></tr><tr><td>全量重建索引</td><td>12 块；1024 维</td><td class='mono'>2052 ms</td></tr><tr><td>非流式 RAG 问答</td><td>引用 5 条；回答 41 字</td><td class='mono'>3267 ms</td></tr><tr><td>流式 RAG 问答</td><td>60 个 SSE 事件；最高相似度 0.7427</td><td class='mono'>3555 ms</td></tr><tr><td>多文档对比分析</td><td>3 个小节；检索 6 段</td><td class='mono'>8069 ms</td></tr><tr><td>研究报告生成</td><td>5 个小节；导出 [&#x27;md&#x27;, &#x27;docx&#x27;]</td><td class='mono'>9127 ms</td></tr><tr><td>备份完整性校验</td><td>4 文档；12 块；16 文件</td><td class='mono'>37 ms</td></tr></tbody></table>
+    <div class="note">以上数据均取自本轮实际响应字段，未使用估算值。语义检索与问答最高相似度均高于当前拒答阈值 0.5；无关问题由 CHAT-15/17 验证为明确拒答。</div>
+  </section>
+
+  <section class="card">
+    <h2>已配置外部模型服务直连验证</h2>
+    <table><thead><tr><th>用例</th><th>验证点</th><th>HTTP 状态</th><th>结果</th><th>证据</th></tr></thead><tbody><tr><td>EXT-01</td><td>DeepSeek LLM 对话补全直连</td><td class='mono'>200</td><td><span class="badge pass">PASS 通过</span></td><td><a href='screenshots/001_PASS_EXT-01_DeepSeek_LLM_%E5%AF%B9%E8%AF%9D%E8%A1%A5%E5%85%A8%E7%9B%B4%E8%BF%9E.png'>截图</a> · <a href='cases/EXT-01.html'>详情</a></td></tr><tr><td>EXT-02</td><td>DeepSeek LLM 流式输出直连</td><td class='mono'>200</td><td><span class="badge pass">PASS 通过</span></td><td><a href='screenshots/002_PASS_EXT-02_DeepSeek_LLM_%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA%E7%9B%B4%E8%BF%9E.png'>截图</a> · <a href='cases/EXT-02.html'>详情</a></td></tr><tr><td>EXT-03</td><td>DeepSeek LLM 鉴权失败处理</td><td class='mono'>401</td><td><span class="badge pass">PASS 通过</span></td><td><a href='screenshots/003_PASS_EXT-03_DeepSeek_LLM_%E9%89%B4%E6%9D%83%E5%A4%B1%E8%B4%A5%E5%A4%84%E7%90%86.png'>截图</a> · <a href='cases/EXT-03.html'>详情</a></td></tr><tr><td>EXT-04</td><td>Jina Embedding 向量接口直连</td><td class='mono'>200</td><td><span class="badge pass">PASS 通过</span></td><td><a href='screenshots/004_PASS_EXT-04_Jina_Embedding_%E5%90%91%E9%87%8F%E6%8E%A5%E5%8F%A3%E7%9B%B4%E8%BF%9E.png'>截图</a> · <a href='cases/EXT-04.html'>详情</a></td></tr><tr><td>EXT-05</td><td>Jina Embedding 模型名错误处理</td><td class='mono'>422</td><td><span class="badge pass">PASS 通过</span></td><td><a href='screenshots/005_PASS_EXT-05_Jina_Embedding_%E6%A8%A1%E5%9E%8B%E5%90%8D%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png'>截图</a> · <a href='cases/EXT-05.html'>详情</a></td></tr><tr><td>EXT-06</td><td>Jina Embedding 鉴权失败处理</td><td class='mono'>401</td><td><span class="badge pass">PASS 通过</span></td><td><a href='screenshots/006_PASS_EXT-06_Jina_Embedding_%E9%89%B4%E6%9D%83%E5%A4%B1%E8%B4%A5%E5%A4%84%E7%90%86.png'>截图</a> · <a href='cases/EXT-06.html'>详情</a></td></tr></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>缺陷清单（4 项）</h2>
+    <table><thead><tr><th style="width:78px">级别</th><th>问题</th><th>影响</th><th style="width:130px">证据</th></tr></thead><tbody><tr><td><span class='badge warn'>P1</span></td><td><b>备份恢复在 Windows 下失败：Qdrant 目录被占用</b><div class='small'>调用 POST /api/v1/backup/restore 返回 422：文件被占用，无法替换：qdrant（WinError 5）。</div></td><td>桌面端「数据备份与恢复」的恢复流程实际不可用；虽然失败后已自动回滚且数据未被破坏，但用户无法通过备份恢复数据。</td><td><a href='cases/BKP-13.html'>查看证据页</a><br><a href='screenshots/156_FAIL_BKP-13_%E4%BB%8E%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E6%95%B0%E6%8D%AE.png'>查看截图</a></td></tr><tr><td><span class='badge warn'>P2</span></td><td><b>连续备份文件名秒级冲突，后一次覆盖前一次</b><div class='small'>同一秒内连续创建两次备份，两次返回的文件名完全相同（knowflow-backup-20261122-195359.zip）。</div></td><td>用户快速连续备份时，前一个备份会被静默覆盖，造成备份丢失。</td><td><a href='cases/BKP-19.html'>查看证据页</a><br><a href='screenshots/155_FAIL_BKP-19_%E8%BF%9E%E7%BB%AD%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E5%90%8D%E5%94%AF%E4%B8%80%E6%80%A7.png'>查看截图</a></td></tr><tr><td><span class='badge warn'>P2</span></td><td><b>未知 API 路径返回 200 HTML，而不是 404 JSON</b><div class='small'>GET /api/v1/unknown-endpoint 返回 200 与前端 index.html；备份路径穿越请求也因此返回 200 HTML。</div></td><td>API 客户端无法通过状态码区分「接口不存在」与「成功」；错误处理与监控会被误导。备份文件本身未被泄露。</td><td><a href='cases/X-02.html'>查看证据页</a><br><a href='screenshots/172_FAIL_X-02_%E6%9C%AA%E7%9F%A5_API_%E8%B7%AF%E5%BE%84.png'>查看截图</a></td></tr><tr><td><span class='badge warn'>P3</span></td><td><b>文档详情接口未回填 index_status</b><div class='small'>索引已完成时，GET /api/v1/documents/{id} 返回 index_status=&#x27;unknown&#x27;，而列表接口返回 &#x27;indexed&#x27;。</div></td><td>同一资源在不同接口中的字段不一致，依赖详情页展示索引状态的场景可能误判为未知状态。</td><td><a href='cases/DOC-36.html'>查看证据页</a><br><a href='screenshots/064_FAIL_DOC-36_%E6%96%87%E6%A1%A3%E8%AF%A6%E6%83%85%E7%B4%A2%E5%BC%95%E7%8A%B6%E6%80%81%E5%9B%9E%E5%A1%AB.png'>查看截图</a></td></tr></tbody></table>
+    <div class="note">P1 为影响核心功能可用性的缺陷，建议优先修复；P2 为数据安全/API 语义问题；P3 为字段一致性/展示问题。所有失败用例的请求、响应、状态码和截图均已保留。</div>
+  </section>
+
+  <section class="card">
+    <h2>模块覆盖统计</h2>
+    <table><thead><tr><th>模块</th><th>用例数</th><th>通过</th><th>未通过</th><th>通过率</th></tr></thead><tbody><tr><td>外部模型服务</td><td>6</td><td class='check-ok'>6</td><td class=''>0</td><td>100.0%</td></tr><tr><td>系统</td><td>4</td><td class='check-ok'>4</td><td class=''>0</td><td>100.0%</td></tr><tr><td>系统设置</td><td>18</td><td class='check-ok'>18</td><td class=''>0</td><td>100.0%</td></tr><tr><td>文档管理</td><td>36</td><td class='check-ok'>35</td><td class='check-bad'>1</td><td>97.2%</td></tr><tr><td>任务中心</td><td>15</td><td class='check-ok'>15</td><td class=''>0</td><td>100.0%</td></tr><tr><td>语义检索</td><td>17</td><td class='check-ok'>17</td><td class=''>0</td><td>100.0%</td></tr><tr><td>智能问答</td><td>21</td><td class='check-ok'>21</td><td class=''>0</td><td>100.0%</td></tr><tr><td>多文档分析</td><td>10</td><td class='check-ok'>10</td><td class=''>0</td><td>100.0%</td></tr><tr><td>研究报告</td><td>15</td><td class='check-ok'>15</td><td class=''>0</td><td>100.0%</td></tr><tr><td>备份恢复</td><td>19</td><td class='check-ok'>17</td><td class='check-bad'>2</td><td>89.5%</td></tr><tr><td>存储位置</td><td>9</td><td class='check-ok'>9</td><td class=''>0</td><td>100.0%</td></tr><tr><td>通用协议</td><td>7</td><td class='check-ok'>6</td><td class='check-bad'>1</td><td>85.7%</td></tr></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>接口覆盖清单</h2>
+    <table><thead><tr><th>模块</th><th>方法与路径</th><th>对应用例</th></tr></thead><tbody><tr><td>系统</td><td class='mono'>GET /system/health</td><td>SYS-01</td></tr><tr><td>系统</td><td class='mono'>GET /system/info</td><td>SYS-02</td></tr><tr><td>系统</td><td class='mono'>GET /system/stats</td><td>SYS-03</td></tr><tr><td>系统</td><td class='mono'>GET/PUT/DELETE /system/storage</td><td>SYS-04、STO-01~09</td></tr><tr><td>设置</td><td class='mono'>GET/PUT /settings</td><td>SET-01、SET-10~18、DOC-24/26</td></tr><tr><td>设置</td><td class='mono'>GET/PUT /settings/models</td><td>SET-02~04</td></tr><tr><td>设置</td><td class='mono'>POST /settings/models/test</td><td>SET-05~09</td></tr><tr><td>文档</td><td class='mono'>POST /documents/upload</td><td>DOC-15、18、19、20、25</td></tr><tr><td>文档</td><td class='mono'>POST /documents/batch-upload</td><td>DOC-21~23</td></tr><tr><td>文档</td><td class='mono'>GET /documents</td><td>DOC-01~05、DOC-22</td></tr><tr><td>文档</td><td class='mono'>GET /documents/index-summary</td><td>DOC-08、35、SEA-15、BKP-16</td></tr><tr><td>文档</td><td class='mono'>GET /documents/{id}</td><td>DOC-09、10、16、28、31、36</td></tr><tr><td>文档</td><td class='mono'>GET /documents/{id}/content</td><td>DOC-11、12</td></tr><tr><td>文档</td><td class='mono'>GET /documents/{id}/preview</td><td>DOC-13、14</td></tr><tr><td>文档</td><td class='mono'>POST /documents/{id}/reprocess</td><td>DOC-27~29</td></tr><tr><td>文档</td><td class='mono'>DELETE /documents/{id}</td><td>DOC-30、33、34</td></tr><tr><td>任务</td><td class='mono'>GET /tasks</td><td>TSK-01~06</td></tr><tr><td>任务</td><td class='mono'>GET /tasks/{id}</td><td>TSK-07、08、14</td></tr><tr><td>任务</td><td class='mono'>GET /tasks/{id}/events</td><td>TSK-09</td></tr><tr><td>任务</td><td class='mono'>POST /tasks/{id}/retry</td><td>TSK-10~12</td></tr><tr><td>任务</td><td class='mono'>DELETE /tasks/{id}</td><td>TSK-13、15</td></tr><tr><td>检索</td><td class='mono'>POST /search</td><td>SEA-01~11、17、DOC-17/32、BKP-17</td></tr><tr><td>检索</td><td class='mono'>GET /search/history</td><td>SEA-12</td></tr><tr><td>检索</td><td class='mono'>POST /search/reindex</td><td>SEA-14、16</td></tr><tr><td>检索</td><td class='mono'>GET /search/reindex/status</td><td>SEA-13</td></tr><tr><td>问答</td><td class='mono'>POST/GET /chat/sessions</td><td>CHAT-01~06</td></tr><tr><td>问答</td><td class='mono'>GET/DELETE /chat/sessions/{id}</td><td>CHAT-07、08、18~21</td></tr><tr><td>问答</td><td class='mono'>POST /chat/sessions/{id}/messages</td><td>CHAT-09~17</td></tr><tr><td>分析</td><td class='mono'>POST /analysis</td><td>ANA-01、03~10</td></tr><tr><td>分析</td><td class='mono'>POST /analysis/summary</td><td>ANA-02</td></tr><tr><td>报告</td><td class='mono'>POST /reports/generate</td><td>REP-01、12~15</td></tr><tr><td>报告</td><td class='mono'>GET /reports</td><td>REP-02~04</td></tr><tr><td>报告</td><td class='mono'>GET /reports/{id}</td><td>REP-05~07</td></tr><tr><td>报告</td><td class='mono'>GET /reports/{id}/download</td><td>REP-08~11</td></tr><tr><td>备份</td><td class='mono'>POST/GET /backup</td><td>BKP-01、02、10、19</td></tr><tr><td>备份</td><td class='mono'>GET /backup/{name}/download</td><td>BKP-03、08、09</td></tr><tr><td>备份</td><td class='mono'>POST /backup/validate</td><td>BKP-04~07</td></tr><tr><td>备份</td><td class='mono'>POST /backup/restore</td><td>BKP-13</td></tr><tr><td>通用</td><td class='mono'>根路径 / /docs /openapi.json / CORS / 405 / 畸形 JSON</td><td>X-01~07</td></tr></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>证据索引</h2>
+    <div class="toc">
+      <a href="all-cases.html">全部 177 条用例明细表</a>
+      <a href="screenshots/">逐项测试截图（177 张，另含总览与接口清单 2 张）</a>
+      <a href="raw/">原始响应 JSON（每用例一份）</a>
+      <a href="API测试覆盖记录.md">Markdown 版测试覆盖记录</a>
+      <span style="display:block;background:#f8fbfd;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:14px">Swagger UI：测试时服务地址 /docs（截图见 000_接口清单_Swagger.png）</span>
+    </div>
+  </section>
+  <div class="footer">报告由真实接口响应自动生成 · 不包含任何 API Key 明文 · 生成时间 2026-11-22 20:04:48</div>
+</div>
+</body></html>

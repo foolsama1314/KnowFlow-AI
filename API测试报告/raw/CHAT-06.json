@@ -1,0 +1,54 @@
+{
+  "id": "CHAT-06",
+  "group": "智能问答",
+  "title": "会话分页大小校验",
+  "purpose": "page_size=101 应返回 422。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions",
+    "query": {
+      "page_size": 101
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 5,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "query",
+          "page_size"
+        ],
+        "msg": "Input should be less than or equal to 100",
+        "input": "101",
+        "ctx": {
+          "le": 100
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "148",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:43 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:43"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "DOC-36",
+  "group": "文档管理",
+  "title": "文档详情索引状态回填",
+  "purpose": "索引已完成时，单文档详情应返回 index_status=indexed，而不是默认 unknown。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents/a9538bd8-9ab5-4403-88a3-e0e1a61dfbde"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 5,
+  "response": {
+    "id": "a9538bd8-9ab5-4403-88a3-e0e1a61dfbde",
+    "name": "api-test-upload",
+    "original_name": "api-test-upload.txt",
+    "file_type": "txt",
+    "file_size": 474,
+    "status": "completed",
+    "page_count": 1,
+    "chunk_count": 1,
+    "summary": null,
+    "index_status": "unknown",
+    "last_error": null,
+    "created_at": "2026-11-22T19:58:15.512434",
+    "updated_at": "2026-11-22T19:58:23.479686"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "336",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:25 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "status 等于 'completed'",
+      "ok": true,
+      "detail": "status = 'completed'，预期 'completed'"
+    },
+    {
+      "label": "index_status 等于 'indexed'",
+      "ok": false,
+      "detail": "index_status = 'unknown'，预期 'indexed'"
+    }
+  ],
+  "passed": false,
+  "error": "",
+  "note": "列表接口已正确回填 indexed，详情接口未回填，属于响应字段不一致缺陷。",
+  "at": "2026-11-22T19:58:25"
+}

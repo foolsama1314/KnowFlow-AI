@@ -1,0 +1,84 @@
+{
+  "id": "CHAT-04",
+  "group": "智能问答",
+  "title": "会话列表分页",
+  "purpose": "确认会话列表返回真实会话与总数。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions",
+    "query": {
+      "page": 1,
+      "page_size": 20
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 15,
+  "response": {
+    "items": [
+      {
+        "id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "title": "API 测试会话",
+        "created_at": "2026-11-22T19:58:43.853634",
+        "updated_at": "2026-11-22T19:58:43.853634"
+      },
+      {
+        "id": "f134393b-b3d5-4a8a-b6e3-aca39f07f13a",
+        "title": "新会话",
+        "created_at": "2026-11-22T19:58:43.813469",
+        "updated_at": "2026-11-22T19:58:43.813469"
+      },
+      {
+        "id": "97cd6bb2-082b-4fbb-8536-de2e3291405e",
+        "title": "持久化验收会话",
+        "created_at": "2026-11-18T21:11:20.189022",
+        "updated_at": "2026-11-19T12:23:38.974364"
+      }
+    ],
+    "total": 3,
+    "page": 1,
+    "page_size": 20
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "514",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:43 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "total >= 2",
+      "ok": true,
+      "detail": "total = 3，预期 >= 2"
+    },
+    {
+      "label": "items 长度 >= 2",
+      "ok": true,
+      "detail": "items 长度 = 3，预期 >= 2"
+    },
+    {
+      "label": "page 等于 1",
+      "ok": true,
+      "detail": "page = 1，预期 1"
+    },
+    {
+      "label": "page_size 等于 20",
+      "ok": true,
+      "detail": "page_size = 20，预期 20"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:43"
+}

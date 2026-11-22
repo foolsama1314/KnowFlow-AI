@@ -1,0 +1,55 @@
+# ===== TRAE 内部缓存 =====
+.trae-html-share-packages/
+
+# ===== 编辑器 / 系统 =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ===== 密钥 / 用户数据（严禁上传公开仓库）=====
+**/settings.json
+**/.env
+**/.env.*
+!**/.env.example
+**/*.key
+**/*.pem
+**/secrets.json
+
+# 用户本地数据（含 API Key、知识库、向量库、日志、WebView 缓存）
+**/data/uploads/
+**/data/processed/
+**/data/database/
+**/data/qdrant/
+**/data/exports/
+**/data/logs/
+**/data/webview/
+**/data/backups/
+
+# ===== 前端依赖与构建 =====
+**/node_modules/
+frontend/dist/
+*.local
+
+# ===== 桌面打包产物（源码仓库不内联，EXE 由仓库根目录的 LFS 文件单独提供）=====
+build/
+dist/
+release/
+
+# ===== 备份包（含用户数据与 settings.json，严禁上传）=====
+release_data_backup*.zip
+*_backup_*.zip
+*.7z
+
+# ===== 日志 =====
+*.log

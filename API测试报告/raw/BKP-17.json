@@ -1,0 +1,96 @@
+{
+  "id": "BKP-17",
+  "group": "备份恢复",
+  "title": "恢复后语义检索可用",
+  "purpose": "恢复后再次检索，确认 Qdrant 数据与 SQLite 仍然匹配。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/search",
+    "json": {
+      "query": "RAG 的核心流程",
+      "top_k": 3
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1466,
+  "response": {
+    "query": "RAG 的核心流程",
+    "results": [
+      {
+        "chunk_id": "ab045ff3-662f-4507-9b98-3c73b2ea29a0",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 1,
+        "page_to": 1,
+        "content": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素",
+        "score": 0.6819
+      },
+      {
+        "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "document_name": "项目周报.md",
+        "file_type": "md",
+        "page_from": 1,
+        "page_to": 1,
+        "content": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+        "score": 0.5594
+      },
+      {
+        "chunk_id": "15bfb62a-ad7f-4cfe-acd4-d70635ff5da5",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "document_name": "RAG技术概览.pdf",
+        "file_type": "pdf",
+        "page_from": 1,
+        "page_to": 2,
+        "content": "含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制",
+        "score": 0.5204
+      }
+    ],
+    "took_ms": 1461,
+    "retrieval_mode": "semantic",
+    "embedding_model": "jina-embeddings-v3",
+    "index_status": {
+      "provider": "openai_compatible",
+      "model": "jina-embeddings-v3",
+      "dimension": 1024,
+      "status": "completed",
+      "chunk_count": 12,
+      "error": null,
+      "updated_at": "2026-11-22T19:59:25.836336"
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "2090",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:24 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "results 长度 >= 1",
+      "ok": true,
+      "detail": "results 长度 = 3，预期 >= 1"
+    },
+    {
+      "label": "index_status.status 等于 'completed'",
+      "ok": true,
+      "detail": "index_status.status = 'completed'，预期 'completed'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

@@ -1,0 +1,87 @@
+{
+  "id": "SET-01",
+  "group": "系统设置",
+  "title": "读取完整设置",
+  "purpose": "确认返回模型、处理参数与 RAG 参数，且响应中不泄露 API Key 明文。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/settings"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 13,
+  "response": {
+    "models": {
+      "llm_provider": "openai_compatible",
+      "llm_base_url": "https://api.deepseek.com/v1",
+      "llm_model": "deepseek-chat",
+      "llm_has_key": true,
+      "llm_configured": true,
+      "embedding_provider": "openai_compatible",
+      "embedding_base_url": "https://api.jina.ai/v1",
+      "embedding_model": "jina-embeddings-v3",
+      "embedding_dim": 1024,
+      "embedding_has_key": true,
+      "embedding_configured": true,
+      "embedding_degraded": false
+    },
+    "processing": {
+      "chunk_size": 220,
+      "chunk_overlap": 40,
+      "default_top_k": 5,
+      "max_upload_mb": 200
+    },
+    "rag": {
+      "rag_top_k": 5,
+      "rag_min_score": 0.5,
+      "rag_context_chars": 6000
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "544",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:08 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "models.llm_configured 等于 True",
+      "ok": true,
+      "detail": "models.llm_configured = True，预期 True"
+    },
+    {
+      "label": "models.embedding_configured 等于 True",
+      "ok": true,
+      "detail": "models.embedding_configured = True，预期 True"
+    },
+    {
+      "label": "models.embedding_dim 等于 1024",
+      "ok": true,
+      "detail": "models.embedding_dim = 1024，预期 1024"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "响应 JSON 中不包含 api_key 字段"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "响应正文中不包含密钥明文"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:09"
+}

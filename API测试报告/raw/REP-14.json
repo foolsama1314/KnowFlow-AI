@@ -1,0 +1,58 @@
+{
+  "id": "REP-14",
+  "group": "研究报告",
+  "title": "生成主题为空",
+  "purpose": "topic 最小长度 1，空字符串应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/reports/generate",
+    "json": {
+      "topic": "",
+      "document_ids": [
+        "71f8776d-e81e-4949-9a66-d9df0dbab55f"
+      ],
+      "top_k": 4
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 4,
+  "response": {
+    "detail": [
+      {
+        "type": "string_too_short",
+        "loc": [
+          "body",
+          "topic"
+        ],
+        "msg": "String should have at least 1 character",
+        "input": "",
+        "ctx": {
+          "min_length": 1
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "145",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

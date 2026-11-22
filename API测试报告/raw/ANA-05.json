@@ -1,0 +1,46 @@
+{
+  "id": "ANA-05",
+  "group": "多文档分析",
+  "title": "分析文档不存在",
+  "purpose": "传入不存在的文档 ID 应返回 404。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/analysis",
+    "json": {
+      "mode": "compare",
+      "document_ids": [
+        "0b04f1c4-c9de-4f00-b03e-e1a90f61a75a"
+      ],
+      "topic": "测试"
+    }
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 6,
+  "response": {
+    "detail": "所选资料不存在或已被删除，请刷新后重试",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "89",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:07 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:07"
+}

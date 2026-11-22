@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>ANA-02 单文档智能总结 - 知枢 AI API 测试</title><style>
+:root{
+  --bg:#f2f6f9; --card:#ffffff; --ink:#152238; --muted:#5d6b7d;
+  --line:#d9e2ea; --accent:#1f7a6b; --accent-soft:#e6f4f1;
+  --pass:#12805c; --pass-bg:#e6f7f0; --fail:#b42318; --fail-bg:#fdecea;
+  --warn:#9a6700; --warn-bg:#fff6dd; --code:#0f2233; --code-bg:#f4f7fa;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Arial,sans-serif;
+  font-size:16px;line-height:1.65;}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1280px;margin:0 auto;padding:28px 30px 46px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 6px 20px rgba(21,34,56,.06);padding:26px 30px;margin-bottom:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:14px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.brand{font-weight:700;color:var(--accent);font-size:16px;letter-spacing:.5px}
+h1{font-size:30px;line-height:1.3;margin:0 0 10px}
+h2{font-size:21px;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--accent-soft)}
+h3{font-size:17px;margin:20px 0 10px}
+.sub{color:var(--muted);font-size:15px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+.meta .item{background:#f8fbfd;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.meta .k{font-size:12px;color:var(--muted);letter-spacing:.4px;text-transform:uppercase}
+.meta .v{font-size:15px;font-weight:600;word-break:break-all}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;
+  font-size:14px;font-weight:700;letter-spacing:.4px}
+.badge.pass{background:var(--pass-bg);color:var(--pass);border:1px solid #b7e4d3}
+.badge.fail{background:var(--fail-bg);color:var(--fail);border:1px solid #f5c2bd}
+.badge.info{background:var(--accent-soft);color:var(--accent);border:1px solid #bfe3dc}
+.badge.warn{background:var(--warn-bg);color:var(--warn);border:1px solid #f0d58a}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:18px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat .num{font-size:32px;font-weight:800;line-height:1.1}
+.stat .lab{font-size:13px;color:var(--muted);margin-top:4px}
+.stat.total .num{color:var(--ink)} .stat.ok .num{color:var(--pass)}
+.stat.bad .num{color:var(--fail)} .stat.rate .num{color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#f0f5f8;font-weight:700;color:#33475f;font-size:13px}
+tr:nth-child(even) td{background:#fbfdfe}
+.mono{font-family:Consolas,"Cascadia Mono",Menlo,monospace}
+.code{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow:auto;font-size:13px;line-height:1.6;white-space:pre-wrap;
+  word-break:break-word;font-family:Consolas,"Cascadia Mono",Menlo,monospace;color:#16324a}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kv .k{background:#f0f5f8;padding:10px 12px;font-size:13px;color:#33475f;font-weight:700;border-bottom:1px solid var(--line)}
+.kv .v{padding:10px 12px;border-bottom:1px solid var(--line);word-break:break-all}
+.kv > div:nth-last-child(-n+2){border-bottom:none}
+.check-ok{color:var(--pass);font-weight:800}
+.check-bad{color:var(--fail);font-weight:800}
+.note{background:var(--warn-bg);border:1px solid #f0d58a;color:#6b4b00;
+  border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
+.reqline{background:#102a43;color:#e6f4f1;border-radius:10px;padding:12px 16px;
+  font-family:Consolas,monospace;font-size:14px;word-break:break-all}
+.reqline .m{color:#7ee2c6;font-weight:800;margin-right:10px}
+.section{margin-top:24px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.pager a{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.wrap{padding:18px}}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.toc a{display:block;background:#f8fbfd;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:14px}
+.small{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;background:#eef3f7;border:1px solid var(--line);border-radius:6px;
+  padding:1px 8px;font-size:12px;color:#41536a;margin-right:6px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 6px}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">知枢 AI · API 功能测试证据</span>
+    <span><a href="../index.html">返回总览</a>　|　<a href="../all-cases.html">全部用例</a>　|　2026-11-22T19:59:07</span>
+  </div>
+  <main class="card">
+    <div style="display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap">
+      <div>
+        <div class="small">多文档分析 · 用例 ANA-02</div>
+        <h1>单文档智能总结</h1>
+        <div class="sub">对课程笔记生成固定四节总结。</div>
+      </div>
+      <div style="text-align:right"><span class="badge pass">PASS 通过</span>
+        <div class="small" style="margin-top:8px">耗时 5023 ms</div>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div class="item"><div class="k">请求</div><div class="v mono">POST http://127.0.0.1:8011/api/v1/analysis/summary</div></div>
+      <div class="item"><div class="k">预期状态</div><div class="v mono">200</div></div>
+      <div class="item"><div class="k">实际状态</div><div class="v mono">200</div></div>
+      <div class="item"><div class="k">断言结果</div><div class="v">全部通过</div></div>
+    </div>
+
+    <div class="section"><h2>1. 测试请求</h2><div class="reqline"><span class="m">POST</span>http://127.0.0.1:8011/api/v1/analysis/summary</div><h3>请求体 JSON</h3><div class='code'>{
+  &quot;mode&quot;: &quot;summary&quot;,
+  &quot;document_ids&quot;: [
+    &quot;66ded2ab-71e0-45c6-be94-5f06ca1c3b49&quot;
+  ],
+  &quot;topic&quot;: &quot;课程笔记核心内容&quot;,
+  &quot;top_k&quot;: 3
+}</div></div>
+    <div class="section"><h2>2. 响应状态与数据</h2><h3>HTTP 状态</h3><div class='kv'><div class='k'>状态码</div><div class='v mono'>200 OK</div></div><h3>响应头</h3><div class='kv'><div class='k'>content-type</div><div class='v mono'>application/json</div><div class='k'>content-length</div><div class='v mono'>3991</div></div><h3>响应数据</h3><div class='code'>{
+  &quot;mode&quot;: &quot;summary&quot;,
+  &quot;topic&quot;: &quot;课程笔记核心内容&quot;,
+  &quot;sections&quot;: [
+    {
+      &quot;title&quot;: &quot;核心观点&quot;,
+      &quot;content&quot;: &quot;资料整理应分层次推进，从统一存储到结构化标注，再到资料间互相引用，逐步提升资料的可管理性 [1]。检索与问答是两种不同性质的能力：检索只提供候选文档或片段，问答则在检索基础上完成归纳并保留引用，使用户可直接核对结论 [1]。溯源是知识管理的关键环节，因为大模型可能生成看似合理但无依据的内容，需通过强制引用、块级校验与原文跳转把生成结果转化为可核验知识 [1][2]。个人知识库的定位是服务单个用户，不追求多人协作与复杂权限，其价值在于把分散在网盘、收藏夹与相册中的资料整合为可搜索、可问答、可分析的统一知识底座 [2]。&quot;
+    },
+    {
+      &quot;title&quot;: &quot;关键概念&quot;,
+      &quot;content&quot;: &quot;- **资料整理的三个层次**：存储（统一入口）、结构化（分类、标签与来源）、关联（资料间互相引用）[1]。\n- **检索**：给出候选文档或片段，用户仍需自己阅读 [1]。\n- **问答**：在检索基础上完成归纳并保留引用，用户可直接核对结论 [1]。\n- **溯源手段**：强制引用、块级校验、原文跳转 [1][2]。\n- **个人知识库**：服务单个用户、不追求多人协作与复杂权限的知识底座 [2]。&quot;
+    },
+    {
+      &quot;title&quot;: &quot;重要结论&quot;,
+      &quot;content&quot;: &quot;- 资料整理不能停留在存储层面，需通过结构化与关联提升可用性 [1]。\n- 问答相较检索增加了归纳与引用环节，使用户可直接核对结论而非自行阅读原始片段 [1]。\n- 强制引用、块级校验与原文跳转是把生成结果转化为可核验知识的关键手段 [1][2]。\n- 个人知识库的价值在于将分散于网盘、收藏夹与相册的资料变为可搜索、可问答、可分析的统一知识底座 [2]。\n- 实践上应每周固定时间导入新资料，先检查任务中心是否有失败任务，再用三个不同说法检索同一知识点以检验召回稳定性 [2]。&quot;
+    },
+    {
+      &quot;title&quot;: &quot;待研究问题&quot;,
+      &quot;content&quot;: &quot;资料未涉及资料整理三层次的具体实现方式、块级校验的技术细节，以及召回稳定性的判定标准；资料不足，无法判断。&quot;
+    }
+  ],
+  &quot;citations&quot;: [
+    {
+      &quot;chunk_id&quot;: &quot;53233741-1f5a-457d-9c55-e4b6eb192eb5&quot;,
+      &quot;document_id&quot;: &quot;66ded2ab-71e0-45c6-be94-5f06ca1c3b49&quot;,
+      &quot;document_name&quot;: &quot;课程笔记.txt&quot;,
+      &quot;file_type&quot;: &quot;txt&quot;,
+      &quot;page_from&quot;: 1,
+      &quot;page_to&quot;: 1,
+      &quot;snippet&quot;: &quot;课程笔记：知识管理方法\n一、资料整理的三个层次\n第一层是存储，把资料放进统一入口；第二层是结构化，让资料带上分类、标签与来源；第三层是关联，让资料之间能够互相引用。\n二、检索与问答的区别\n检索给出候选文档或片段，用户仍需自己阅读；问答在检索基础上完成归纳，并保留引用，用户可以直接核对结论。\n三、为什么要做溯源\n大模型可能生成看似合理但没有依据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为&quot;,
+      &quot;score&quot;: 0.6861,
+      &quot;cited&quot;: true
+    },
+    {
+      &quot;chunk_id&quot;: &quot;cd815f1e-f8f1-490c-8a2d-64b088c3502d&quot;,
+      &quot;document_id&quot;: &quot;66ded2ab-71e0-45c6-be94-5f06ca1c3b49&quot;,
+      &quot;document_name&quot;: &quot;课程笔记.txt&quot;,
+      &quot;file_type&quot;: &quot;txt&quot;,
+      &quot;page_from&quot;: 1,
+      &quot;page_to&quot;: 1,
+      &quot;snippet&quot;: &quot;据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为可核验知识的关键手段。\n四、个人知识库的边界\n个人知识库服务单个用户，不追求多人协作与复杂权限。它的价值在于把分散在网盘、收藏夹与相册中的资料，变成可以搜索、可以问答、可以分析的统一知识底座。\n五、实践建议\n每周固定时间导入新资料，先看任务中心是否有失败任务，再用三个不同说法检索同一个知识点，检查召回是否稳定。&quot;,
+      &quot;score&quot;: 0.5471,
+      &quot;cited&quot;: true
+    }
+  ],
+  &quot;retrieval_count&quot;: 2,
+  &quot;truncated&quot;: false,
+  &quot;refusal&quot;: false,
+  &quot;message&quot;: &quot;&quot;,
+  &quot;model&quot;: &quot;deepseek-chat&quot;,
+  &quot;took_ms&quot;: 5003
+}</div></div>
+    <div class="section"><h2>3. 断言校验</h2><table><thead><tr><th>结果</th><th>断言项</th><th>实测值 / 说明</th></tr></thead><tbody><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>HTTP 状态码符合预期</td><td class='mono'>预期 [200]，实际 200</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>mode 等于 &#x27;summary&#x27;</td><td class='mono'>mode = &#x27;summary&#x27;，预期 &#x27;summary&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>sections 长度 &gt;= 4</td><td class='mono'>sections 长度 = 4，预期 &gt;= 4</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>sections.0.title 等于 &#x27;核心观点&#x27;</td><td class='mono'>sections.0.title = &#x27;核心观点&#x27;，预期 &#x27;核心观点&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>sections.1.title 等于 &#x27;关键概念&#x27;</td><td class='mono'>sections.1.title = &#x27;关键概念&#x27;，预期 &#x27;关键概念&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>sections.2.title 等于 &#x27;重要结论&#x27;</td><td class='mono'>sections.2.title = &#x27;重要结论&#x27;，预期 &#x27;重要结论&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>sections.3.title 等于 &#x27;待研究问题&#x27;</td><td class='mono'>sections.3.title = &#x27;待研究问题&#x27;，预期 &#x27;待研究问题&#x27;</td></tr><tr><td style='width:46px;text-align:center'><span class="check-ok">✓</span></td><td>refusal 等于 False</td><td class='mono'>refusal = False，预期 False</td></tr></tbody></table></div>
+    <div class="section"><h2>4. 等价 cURL</h2><div class='code'>curl -X POST &#x27;http://127.0.0.1:8011/api/v1/analysis/summary&#x27;
+  -H &#x27;Content-Type: application/json&#x27;
+  -d &#x27;{&quot;mode&quot;: &quot;summary&quot;, &quot;document_ids&quot;: [&quot;66ded2ab-71e0-45c6-be94-5f06ca1c3b49&quot;], &quot;topic&quot;: &quot;课程笔记核心内容&quot;, &quot;top_k&quot;: 3}&#x27;</div><p class='small'>密钥以 ***REDACTED*** 展示，命令仅用于说明请求结构。</p></div>
+    
+    <div class="pager"><div><a href='ANA-01.html'>← ANA-01 多文档对比分析</a></div><div><a href='ANA-03.html'>ANA-03 空文档列表校验 →</a></div></div>
+  </main>
+  <div class="footer">本页面由真实接口响应自动生成 · 用例 ANA-02 · 不包含任何 API Key 明文</div>
+</div>
+</body></html>

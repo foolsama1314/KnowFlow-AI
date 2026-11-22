@@ -1,0 +1,56 @@
+{
+  "id": "DOC-19",
+  "group": "文档管理",
+  "title": "不支持的格式",
+  "purpose": "上传 .exe 应返回 415 且 code=unsupported_file。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/upload",
+    "files": [
+      {
+        "field": "file",
+        "filename": "malware.exe",
+        "size": 8
+      }
+    ]
+  },
+  "expected": [
+    415
+  ],
+  "actual_status": 415,
+  "reason": "Unsupported Media Type",
+  "duration_ms": 4,
+  "response": {
+    "detail": "暂不支持 .exe 格式，当前支持：pdf、docx、txt、md、markdown、jpg、jpeg、png、bmp、webp",
+    "code": "unsupported_file"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "145",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [415]，实际 415"
+    },
+    {
+      "label": "code 等于 'unsupported_file'",
+      "ok": true,
+      "detail": "code = 'unsupported_file'，预期 'unsupported_file'"
+    },
+    {
+      "label": "detail 包含 '暂不支持'",
+      "ok": true,
+      "detail": "detail 包含 '暂不支持'：'暂不支持 .exe 格式，当前支持：pdf、docx、txt、md、markdown、jpg、jpeg、png、bmp、webp'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:19"
+}

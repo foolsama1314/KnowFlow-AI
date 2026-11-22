@@ -1,0 +1,128 @@
+{
+  "id": "TSK-01",
+  "group": "任务中心",
+  "title": "任务列表",
+  "purpose": "确认任务列表返回真实处理任务与文档名称。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/tasks",
+    "query": {
+      "limit": 200
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 20,
+  "response": {
+    "items": [
+      {
+        "id": "4159eff2-577b-488c-8077-e66f95984f03",
+        "document_id": "a9538bd8-9ab5-4403-88a3-e0e1a61dfbde",
+        "task_type": "parse",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "已完成",
+        "error_message": null,
+        "retry_count": 0,
+        "document_name": "api-test-upload",
+        "started_at": "2026-11-22T19:58:22.008716",
+        "finished_at": "2026-11-22T19:58:23.478721",
+        "created_at": "2026-11-22T19:58:22.007900"
+      },
+      {
+        "id": "4f4ce4c5-4678-4664-a4bb-be2a7e21f36f",
+        "document_id": "a9538bd8-9ab5-4403-88a3-e0e1a61dfbde",
+        "task_type": "parse",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "已完成",
+        "error_message": null,
+        "retry_count": 0,
+        "document_name": "api-test-upload",
+        "started_at": "2026-11-22T19:58:15.560368",
+        "finished_at": "2026-11-22T19:58:17.391077",
+        "created_at": "2026-11-22T19:58:15.520502"
+      },
+      {
+        "id": "3193c480-7449-490d-9e76-d599beaac84c",
+        "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+        "task_type": "parse",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "已完成",
+        "error_message": null,
+        "retry_count": 0,
+        "document_name": "项目周报",
+        "started_at": "2026-11-18T21:06:01.026826",
+        "finished_at": "2026-11-18T21:06:02.358360",
+        "created_at": "2026-11-18T21:05:58.646056"
+      },
+      {
+        "id": "96290fb5-20fc-44af-bf34-210ac3c22dae",
+        "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+        "task_type": "parse",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "已完成",
+        "error_message": null,
+        "retry_count": 0,
+        "document_name": "课程笔记",
+        "started_at": "2026-11-18T21:05:58.071855",
+        "finished_at": "2026-11-18T21:06:01.022305",
+        "created_at": "2026-11-18T21:05:58.067491"
+      },
+      {
+        "id": "bfbf3512-cb12-479e-b587-54d8bdf01e69",
+        "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+        "task_type": "parse",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "已完成",
+        "error_message": null,
+        "retry_count": 0,
+        "document_name": "RAG技术概览",
+        "started_at": "2026-11-18T21:05:58.008218",
+        "finished_at": "2026-11-18T21:06:01.745015",
+        "created_at": "2026-11-18T21:05:57.992374"
+      }
+    ],
+    "total": 5
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "1915",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:25 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "total >= 3",
+      "ok": true,
+      "detail": "total = 5，预期 >= 3"
+    },
+    {
+      "label": "items 长度 >= 3",
+      "ok": true,
+      "detail": "items 长度 = 5，预期 >= 3"
+    },
+    {
+      "label": "items 存在满足条件的项",
+      "ok": true,
+      "detail": "items 共 5 项，满足条件 5 项"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:25"
+}

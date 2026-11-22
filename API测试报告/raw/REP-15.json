@@ -1,0 +1,67 @@
+{
+  "id": "REP-15",
+  "group": "研究报告",
+  "title": "无关主题的报告拒答保护",
+  "purpose": "用无关主题请求生成报告，观察是否拒绝编造。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/reports/generate",
+    "json": {
+      "topic": "法式甜点烘焙教程",
+      "document_ids": [
+        "71f8776d-e81e-4949-9a66-d9df0dbab55f"
+      ],
+      "top_k": 4
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1632,
+  "response": {
+    "report_id": "",
+    "title": "法式甜点烘焙教程 研究报告",
+    "topic": "法式甜点烘焙教程",
+    "sections": [],
+    "citations": [],
+    "markdown": "",
+    "retrieval_count": 4,
+    "truncated": false,
+    "refusal": true,
+    "message": "检索到的资料相关性不足（最高相似度 0.36，当前拒答阈值 0.50），未生成报告，避免编造。",
+    "model": "deepseek-chat",
+    "created_at": "2026-11-22T19:59:20.341396",
+    "formats": []
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "408",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "sections 为数组"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "refusal=True, report_id="
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "若未拒答且生成了报告，需要人工复核是否越出资料范围。 实测触发拒答：检索到的资料相关性不足（最高相似度 0.36，当前拒答阈值 0.50），未生成报告，避免编造。",
+  "at": "2026-11-22T19:59:20"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "SEA-16",
+  "group": "语义检索",
+  "title": "重建索引并发互斥",
+  "purpose": "两个重建请求同时发起，验证只有一个进入重建，另一个返回 409 冲突。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/search/reindex",
+    "note": "两个并发请求"
+  },
+  "expected": [
+    200,
+    409
+  ],
+  "actual_status": [
+    200,
+    409
+  ],
+  "reason": "并发请求",
+  "duration_ms": 0,
+  "response": [
+    {
+      "status": 409,
+      "body": "{\"detail\":\"另一个索引写入或重建任务正在执行，请稍后重试\",\"code\":\"conflict\"}"
+    },
+    {
+      "status": 200,
+      "body": "{\"chunks\":12,\"dimension\":1024,\"elapsed_ms\":2187}"
+    }
+  ],
+  "response_headers": {},
+  "checks": [
+    {
+      "label": "两个请求均有响应",
+      "ok": true,
+      "detail": "[{'status': 409, 'body': '{\"detail\":\"另一个索引写入或重建任务正在执行，请稍后重试\",\"code\":\"conflict\"}'}, {'status': 200, 'body': '{\"chunks\":12,\"dimension\":1024,\"elapsed_ms\":2187}'}]"
+    },
+    {
+      "label": "一个成功、一个被 409 拒绝",
+      "ok": true,
+      "detail": "status=[200, 409]"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "若不出现 409，说明互斥保护存在竞态，需要修复。",
+  "at": "2026-11-22T19:58:42"
+}

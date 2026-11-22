@@ -1,0 +1,209 @@
+{
+  "id": "CHAT-17",
+  "group": "智能问答",
+  "title": "流式问答的拒答保护",
+  "purpose": "无关问题在流式模式下也必须返回拒答文本，不得调用模型编造。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea/messages",
+    "headers": {
+      "Accept": "text/event-stream"
+    },
+    "json": {
+      "question": "如何制作法式甜点？",
+      "stream": true,
+      "top_k": 5
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1808,
+  "response": {
+    "events": [
+      {
+        "event": "meta",
+        "data": {
+          "model": "deepseek-chat",
+          "retrieval_count": 5,
+          "max_score": 0.3412,
+          "truncated": false,
+          "refusal": true
+        }
+      },
+      {
+        "event": "sources",
+        "data": {
+          "citations": [
+            {
+              "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+              "score": 0.3412,
+              "cited": false
+            },
+            {
+              "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 3,
+              "page_to": 3,
+              "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+              "score": 0.3392,
+              "cited": false
+            },
+            {
+              "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+              "score": 0.3184,
+              "cited": false
+            },
+            {
+              "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+              "score": 0.3162,
+              "cited": false
+            },
+            {
+              "chunk_id": "53233741-1f5a-457d-9c55-e4b6eb192eb5",
+              "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+              "document_name": "课程笔记.txt",
+              "file_type": "txt",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "课程笔记：知识管理方法\n一、资料整理的三个层次\n第一层是存储，把资料放进统一入口；第二层是结构化，让资料带上分类、标签与来源；第三层是关联，让资料之间能够互相引用。\n二、检索与问答的区别\n检索给出候选文档或片段，用户仍需自己阅读；问答在检索基础上完成归纳，并保留引用，用户可以直接核对结论。\n三、为什么要做溯源\n大模型可能生成看似合理但没有依据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为",
+              "score": 0.3154,
+              "cited": false
+            }
+          ]
+        }
+      },
+      {
+        "event": "delta",
+        "data": {
+          "text": "知识库中没有找到足够相关的内容，无法回答。"
+        }
+      },
+      {
+        "event": "done",
+        "data": {
+          "message_id": "1d6dd349-9baf-44fa-b619-5a054aa7e0a2",
+          "content": "知识库中没有找到足够相关的内容，无法回答。",
+          "citations": [
+            {
+              "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+              "score": 0.3412,
+              "cited": false
+            },
+            {
+              "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+              "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+              "document_name": "RAG技术概览.pdf",
+              "file_type": "pdf",
+              "page_from": 3,
+              "page_to": 3,
+              "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+              "score": 0.3392,
+              "cited": false
+            },
+            {
+              "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+              "score": 0.3184,
+              "cited": false
+            },
+            {
+              "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+              "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+              "document_name": "项目周报.md",
+              "file_type": "md",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+              "score": 0.3162,
+              "cited": false
+            },
+            {
+              "chunk_id": "53233741-1f5a-457d-9c55-e4b6eb192eb5",
+              "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+              "document_name": "课程笔记.txt",
+              "file_type": "txt",
+              "page_from": 1,
+              "page_to": 1,
+              "snippet": "课程笔记：知识管理方法\n一、资料整理的三个层次\n第一层是存储，把资料放进统一入口；第二层是结构化，让资料带上分类、标签与来源；第三层是关联，让资料之间能够互相引用。\n二、检索与问答的区别\n检索给出候选文档或片段，用户仍需自己阅读；问答在检索基础上完成归纳，并保留引用，用户可以直接核对结论。\n三、为什么要做溯源\n大模型可能生成看似合理但没有依据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为",
+              "score": 0.3154,
+              "cited": false
+            }
+          ],
+          "refusal": true,
+          "took_ms": 1799
+        }
+      }
+    ],
+    "content_type": "text/event-stream; charset=utf-8"
+  },
+  "response_headers": {
+    "connection": "close",
+    "transfer-encoding": "chunked",
+    "cache-control": "no-cache",
+    "content-type": "text/event-stream; charset=utf-8",
+    "date": "Sun, 22 Nov 2026 11:58:52 GMT",
+    "server": "uvicorn",
+    "vary": "Origin",
+    "x-accel-buffering": "no"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 200，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "meta.refusal=True"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "包含拒答 delta 事件"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "done.refusal=true"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:54"
+}

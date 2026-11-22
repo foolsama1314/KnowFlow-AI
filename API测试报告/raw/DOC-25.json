@@ -1,0 +1,56 @@
+{
+  "id": "DOC-25",
+  "group": "文档管理",
+  "title": "文件超过大小上限",
+  "purpose": "上传 1.5MB 文件，超过临时上限 1MB，应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/upload",
+    "files": [
+      {
+        "field": "file",
+        "filename": "too-large.txt",
+        "size": 1572876
+      }
+    ]
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 16,
+  "response": {
+    "detail": "文件超过 1 MB 上限，请拆分后再上传",
+    "code": "processing_failed"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "88",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:21 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    },
+    {
+      "label": "code 等于 'processing_failed'",
+      "ok": true,
+      "detail": "code = 'processing_failed'，预期 'processing_failed'"
+    },
+    {
+      "label": "detail 包含 '上限'",
+      "ok": true,
+      "detail": "detail 包含 '上限'：'文件超过 1 MB 上限，请拆分后再上传'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:21"
+}

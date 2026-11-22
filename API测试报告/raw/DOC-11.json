@@ -1,0 +1,341 @@
+{
+  "id": "DOC-11",
+  "group": "文档管理",
+  "title": "读取文档解析内容",
+  "purpose": "验证页面、版面块与原文内容真实存在。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents/71f8776d-e81e-4949-9a66-d9df0dbab55f/content"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 9,
+  "response": {
+    "document": {
+      "id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+      "name": "RAG技术概览",
+      "original_name": "RAG技术概览.pdf",
+      "file_type": "pdf",
+      "file_size": 7122,
+      "status": "completed",
+      "page_count": 3,
+      "chunk_count": 6,
+      "summary": null,
+      "index_status": "unknown",
+      "last_error": null,
+      "created_at": "2026-11-18T21:05:57.987538",
+      "updated_at": "2026-11-18T21:06:01.746529"
+    },
+    "pages": [
+      {
+        "id": "3f060b0b-2687-4a57-b631-fd7b909aeb57",
+        "page_no": 1,
+        "width": 595.0,
+        "height": 842.0,
+        "content": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。",
+        "parse_method": "text",
+        "confidence": 1.0,
+        "blocks": [
+          {
+            "id": "a777d72a-4a0e-40fc-9cae-35c11695e4f5",
+            "block_type": "paragraph",
+            "block_order": 0,
+            "content": "检索增强生成（RAG）技术概览",
+            "bbox": [
+              56.0,
+              60.8,
+              326.0,
+              82.4
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "23689ea8-3907-4898-b032-45b74e4b863a",
+            "block_type": "paragraph",
+            "block_order": 1,
+            "content": "一、什么是 RAG",
+            "bbox": [
+              56.0,
+              110.6,
+              173.0,
+              126.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "6076ce05-072f-49ae-9926-4e8524999f84",
+            "block_type": "paragraph",
+            "block_order": 2,
+            "content": "检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。",
+            "bbox": [
+              56.0,
+              140.5,
+              529.0,
+              198.7
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "b2e2537d-3e29-430b-9b3c-dff3ab7e0d63",
+            "block_type": "paragraph",
+            "block_order": 3,
+            "content": "二、核心组成",
+            "bbox": [
+              56.0,
+              210.6,
+              134.0,
+              226.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "5f9c72d2-9015-4d1b-843c-e51145d1a239",
+            "block_type": "paragraph",
+            "block_order": 4,
+            "content": "RAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。",
+            "bbox": [
+              56.0,
+              240.5,
+              441.0,
+              253.7
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "330132bc-2308-4171-8bdf-68eb7ea60d60",
+            "block_type": "paragraph",
+            "block_order": 5,
+            "content": "三、检索质量的影响因素",
+            "bbox": [
+              56.0,
+              310.6,
+              199.0,
+              326.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "801449bc-e439-46d0-8ecf-66cd35f0703b",
+            "block_type": "paragraph",
+            "block_order": 6,
+            "content": "切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。",
+            "bbox": [
+              56.0,
+              340.5,
+              518.0,
+              383.7
+            ],
+            "confidence": 1.0
+          }
+        ]
+      },
+      {
+        "id": "47668a97-f58d-4d55-bb07-e97dc973b0fe",
+        "page_no": 2,
+        "width": 595.0,
+        "height": 842.0,
+        "content": "四、答案溯源机制\n可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。",
+        "parse_method": "text",
+        "confidence": 1.0,
+        "blocks": [
+          {
+            "id": "8e513fa8-68cd-4ecc-bddd-e8b97e565509",
+            "block_type": "paragraph",
+            "block_order": 0,
+            "content": "四、答案溯源机制",
+            "bbox": [
+              56.0,
+              60.6,
+              160.0,
+              76.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "33861fa9-510e-45d2-8683-440b7fc17b5d",
+            "block_type": "paragraph",
+            "block_order": 1,
+            "content": "可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。",
+            "bbox": [
+              56.0,
+              90.5,
+              529.0,
+              133.7
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "ecb7b104-6e2c-4a0b-84fb-ddd0eb706906",
+            "block_type": "paragraph",
+            "block_order": 2,
+            "content": "五、常见误区",
+            "bbox": [
+              56.0,
+              160.6,
+              134.0,
+              176.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "2393b842-027e-4ffd-aa60-9d2502453d21",
+            "block_type": "paragraph",
+            "block_order": 3,
+            "content": "第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。",
+            "bbox": [
+              56.0,
+              190.5,
+              529.0,
+              248.7
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "3abf4ecc-8429-431f-9d91-c02c60497703",
+            "block_type": "paragraph",
+            "block_order": 4,
+            "content": "六、面向个人的落地建议",
+            "bbox": [
+              56.0,
+              260.6,
+              199.0,
+              276.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "f5dcdd36-3215-47e9-a209-1bd706dad314",
+            "block_type": "paragraph",
+            "block_order": 5,
+            "content": "个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。",
+            "bbox": [
+              56.0,
+              290.5,
+              529.0,
+              333.7
+            ],
+            "confidence": 1.0
+          }
+        ]
+      },
+      {
+        "id": "2949795b-40a5-4314-ab5b-18c5e1656e22",
+        "page_no": 3,
+        "width": 595.0,
+        "height": 842.0,
+        "content": "七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当保留来源证据，便于用户回到原文核对。",
+        "parse_method": "text",
+        "confidence": 1.0,
+        "blocks": [
+          {
+            "id": "9e074c00-c837-4b2c-8e54-242457116c77",
+            "block_type": "paragraph",
+            "block_order": 0,
+            "content": "七、评测方法",
+            "bbox": [
+              56.0,
+              60.6,
+              134.0,
+              76.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "8bc07a17-5fc6-4d5e-954a-a80b74d8ea6c",
+            "block_type": "paragraph",
+            "block_order": 1,
+            "content": "构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。",
+            "bbox": [
+              56.0,
+              90.5,
+              463.0,
+              133.7
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "c38683da-5534-4153-8234-b96255ca7dca",
+            "block_type": "paragraph",
+            "block_order": 2,
+            "content": "八、与知识图谱的关系",
+            "bbox": [
+              56.0,
+              160.6,
+              186.0,
+              176.2
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "c248ec53-5749-4163-bf0a-199ec30af4bc",
+            "block_type": "paragraph",
+            "block_order": 3,
+            "content": "向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，",
+            "bbox": [
+              56.0,
+              190.5,
+              496.0,
+              203.7
+            ],
+            "confidence": 1.0
+          },
+          {
+            "id": "d66633c6-04f0-45d1-a384-032a7d400c56",
+            "block_type": "paragraph",
+            "block_order": 4,
+            "content": "图谱中的每条关系都应当保留来源证据，便于用户回到原文核对。",
+            "bbox": [
+              56.0,
+              220.5,
+              375.0,
+              233.7
+            ],
+            "confidence": 1.0
+          }
+        ]
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "7734",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "document.id 等于 '71f8776d-e81e-4949-9a66-d9df0dbab55f'",
+      "ok": true,
+      "detail": "document.id = '71f8776d-e81e-4949-9a66-d9df0dbab55f'，预期 '71f8776d-e81e-4949-9a66-d9df0dbab55f'"
+    },
+    {
+      "label": "pages 长度 >= 1",
+      "ok": true,
+      "detail": "pages 长度 = 3，预期 >= 1"
+    },
+    {
+      "label": "pages.0.content 为真值",
+      "ok": true,
+      "detail": "pages.0.content = '检索增强生成（RAG）技术概览\\n一、什么是 RAG\\n检索增强生成（Retrieval-Augmented Generation，简称\\nRAG）是一种把外部知识检索与大模型生成结合的方法。\\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\\n基于证据生成答案。\\n二、核心组成\\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\\n三、检索质量的影响因素\\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\\n个字符并保留一定重叠。\\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。'"
+    },
+    {
+      "label": "pages.0.blocks 长度 >= 1",
+      "ok": true,
+      "detail": "pages.0.blocks 长度 = 7，预期 >= 1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

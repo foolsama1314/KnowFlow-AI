@@ -1,0 +1,39 @@
+{
+  "id": "BKP-08",
+  "group": "备份恢复",
+  "title": "下载不存在的备份",
+  "purpose": "不存在的文件名应返回 404。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/backup/not-exist-20260101.zip/download"
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 6,
+  "response": {
+    "detail": "备份文件不存在",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "53",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:20"
+}

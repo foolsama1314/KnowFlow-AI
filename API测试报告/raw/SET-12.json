@@ -1,0 +1,75 @@
+{
+  "id": "SET-12",
+  "group": "系统设置",
+  "title": "chunk_size 合法边界值",
+  "purpose": "chunk_size=200 属于合法边界，应保存成功。",
+  "request": {
+    "method": "PUT",
+    "url": "http://127.0.0.1:8011/api/v1/settings",
+    "json": {
+      "processing": {
+        "chunk_size": 200,
+        "chunk_overlap": 40,
+        "default_top_k": 5,
+        "max_upload_mb": 200
+      }
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 33,
+  "response": {
+    "models": {
+      "llm_provider": "openai_compatible",
+      "llm_base_url": "https://api.deepseek.com/v1",
+      "llm_model": "deepseek-chat",
+      "llm_has_key": true,
+      "llm_configured": true,
+      "embedding_provider": "openai_compatible",
+      "embedding_base_url": "https://api.jina.ai/v1",
+      "embedding_model": "jina-embeddings-v3",
+      "embedding_dim": 1024,
+      "embedding_has_key": true,
+      "embedding_configured": true,
+      "embedding_degraded": false
+    },
+    "processing": {
+      "chunk_size": 200,
+      "chunk_overlap": 40,
+      "default_top_k": 5,
+      "max_upload_mb": 200
+    },
+    "rag": {
+      "rag_top_k": 5,
+      "rag_min_score": 0.5,
+      "rag_context_chars": 6000
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "544",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "processing.chunk_size 等于 200",
+      "ok": true,
+      "detail": "processing.chunk_size = 200，预期 200"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

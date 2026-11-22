@@ -1,0 +1,37 @@
+{
+  "id": "BKP-12",
+  "group": "备份恢复",
+  "title": "显式含密钥备份行为",
+  "purpose": "解压 include_secrets=true 的备份，确认密钥按用户显式选择写入。",
+  "request": {
+    "method": "ZIP 内部检查",
+    "url": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\custom_data\\backups\\knowflow-backup-20261122-195921.zip"
+  },
+  "expected": [
+    true
+  ],
+  "actual_status": "文件检查",
+  "reason": "",
+  "duration_ms": 0,
+  "response": {
+    "has_llm_api_key": true,
+    "has_embedding_api_key": true
+  },
+  "response_headers": {},
+  "checks": [
+    {
+      "label": "显式备份包含 llm_api_key",
+      "ok": true,
+      "detail": "存在=True"
+    },
+    {
+      "label": "显式备份包含 embedding_api_key",
+      "ok": true,
+      "detail": "存在=True"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "仅记录是否存在，报告不展示任何密钥值。",
+  "at": "2026-11-22T19:59:22"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "REP-10",
+  "group": "研究报告",
+  "title": "导出格式白名单",
+  "purpose": "format 只允许 md/docx，pdf 应返回 422。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/reports/6b7a639b4a054a27bcb00d23ee5cd19b/download",
+    "query": {
+      "format": "pdf"
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 13,
+  "response": {
+    "detail": [
+      {
+        "type": "string_pattern_mismatch",
+        "loc": [
+          "query",
+          "format"
+        ],
+        "msg": "String should match pattern '^(md|docx)$'",
+        "input": "pdf",
+        "ctx": {
+          "pattern": "^(md|docx)$"
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "168",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

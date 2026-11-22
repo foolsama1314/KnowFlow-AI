@@ -1,0 +1,65 @@
+{
+  "id": "BKP-01",
+  "group": "备份恢复",
+  "title": "创建默认备份",
+  "purpose": "创建不含 API Key 的备份包，返回名称、大小与格式版本。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup",
+    "json": {
+      "include_secrets": false
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 206,
+  "response": {
+    "name": "knowflow-backup-20261122-195920.zip",
+    "size": 495452,
+    "created_at": "2026-11-22T19:59:20.462722",
+    "secrets_included": false,
+    "format_version": 1
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "146",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "name=knowflow-backup-20261122-195920.zip"
+    },
+    {
+      "label": "size >= 1",
+      "ok": true,
+      "detail": "size = 495452，预期 >= 1"
+    },
+    {
+      "label": "secrets_included 等于 False",
+      "ok": true,
+      "detail": "secrets_included = False，预期 False"
+    },
+    {
+      "label": "format_version 等于 1",
+      "ok": true,
+      "detail": "format_version = 1，预期 1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:20"
+}

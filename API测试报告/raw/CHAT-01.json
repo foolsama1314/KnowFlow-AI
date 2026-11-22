@@ -1,0 +1,51 @@
+{
+  "id": "CHAT-01",
+  "group": "智能问答",
+  "title": "创建默认会话",
+  "purpose": "不提交请求体创建会话，应生成默认标题的新会话。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions"
+  },
+  "expected": [
+    201
+  ],
+  "actual_status": 201,
+  "reason": "Created",
+  "duration_ms": 18,
+  "response": {
+    "id": "f134393b-b3d5-4a8a-b6e3-aca39f07f13a",
+    "title": "新会话",
+    "created_at": "2026-11-22T19:58:43.813469",
+    "updated_at": "2026-11-22T19:58:43.813469"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "149",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:43 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [201]，实际 201"
+    },
+    {
+      "label": "title 等于 '新会话'",
+      "ok": true,
+      "detail": "title = '新会话'，预期 '新会话'"
+    },
+    {
+      "label": "id 为真值",
+      "ok": true,
+      "detail": "id = 'f134393b-b3d5-4a8a-b6e3-aca39f07f13a'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:43"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "DOC-23",
+  "group": "文档管理",
+  "title": "批量上传缺少文件",
+  "purpose": "files 为必填，未提交文件应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/batch-upload"
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 4,
+  "response": {
+    "detail": [
+      {
+        "type": "missing",
+        "loc": [
+          "body",
+          "files"
+        ],
+        "msg": "Field required",
+        "input": null
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "90",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:21 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:21"
+}

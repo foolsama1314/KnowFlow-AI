@@ -1,0 +1,65 @@
+{
+  "id": "SEA-09",
+  "group": "语义检索",
+  "title": "不存在的文档过滤",
+  "purpose": "限定不存在的文档 ID，应返回空结果而不是报错或返回其他文档。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/search",
+    "json": {
+      "query": "RAG",
+      "top_k": 10,
+      "filters": {
+        "document_ids": [
+          "9e8128ae-4d40-4684-a662-25807a443cc7"
+        ]
+      }
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1610,
+  "response": {
+    "query": "RAG",
+    "results": [],
+    "took_ms": 1592,
+    "retrieval_mode": "semantic",
+    "embedding_model": "jina-embeddings-v3",
+    "index_status": {
+      "provider": "openai_compatible",
+      "model": "jina-embeddings-v3",
+      "dimension": 1024,
+      "status": "completed",
+      "chunk_count": 12,
+      "error": null,
+      "updated_at": "2026-11-22T19:58:33.429009"
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "297",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:31 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "results=[]"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:35"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "EXT-06",
+  "group": "外部模型服务",
+  "title": "Jina Embedding 鉴权失败处理",
+  "purpose": "使用无效 API Key 调用，确认返回 401/403，避免静默降级为本地哈希向量。",
+  "request": {
+    "method": "POST",
+    "url": "https://api.jina.ai/v1/embeddings",
+    "headers": {
+      "Authorization": "***REDACTED***",
+      "Content-Type": "application/json"
+    },
+    "json": {
+      "model": "jina-embeddings-v3",
+      "input": [
+        "测试"
+      ]
+    }
+  },
+  "expected": [
+    401,
+    403
+  ],
+  "actual_status": 401,
+  "reason": "Unauthorized",
+  "duration_ms": 287,
+  "response": {
+    "detail": "Invalid API key. Verify your API key at https://jina.ai/api-dashboard/key-manager or generate a new one.",
+    "request_id": "eab4503b3d611a57917dcda6e1d70596",
+    "code": "AUTH_INVALID_API_KEY"
+  },
+  "response_headers": {
+    "date": "Sun, 22 Nov 2026 11:58:13 GMT",
+    "content-type": "application/json",
+    "content-length": "186",
+    "connection": "keep-alive",
+    "cf-ray": "a5e7c2d578866ceb-HKG",
+    "cf-cache-status": "DYNAMIC",
+    "content-encoding": "gzip",
+    "server": "cloudflare",
+    "vary": "Accept-Encoding",
+    "x-served-by": "cf-worker-gcp-direct",
+    "alt-svc": "h3=\":443\"; ma=86400",
+    "x-cloud-trace-context": "eab4503b3d611a57917dcda6e1d70596",
+    "x-request-id": "eab4503b3d611a57917dcda6e1d70596",
+    "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=%2BvPZVTkUqDw127oLc3tkoow8ZZopGOGqhYE8diE5mAfutZfBHivMlobBHzit%2Bgz%2FVhYEVLYQ6fJPDbtU3y9DE5HeaII%2FgcNKJMg7CMaW8kahILr6UkcGMnJ1p2Wl\"}]}",
+    "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [401, 403]，实际 401"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "错误信息：{'detail': 'Invalid API key. Verify your API key at https://jina.ai/api-dashboard/key-manager or generate a new one.', 'request_id': 'eab4503b3d611a57917dcda6e1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "无效 Key 为测试专用字符串，不涉及任何真实密钥。",
+  "at": "2026-11-22T19:58:09"
+}

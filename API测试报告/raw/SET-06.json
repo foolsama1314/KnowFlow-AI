@@ -1,0 +1,74 @@
+{
+  "id": "SET-06",
+  "group": "系统设置",
+  "title": "测试向量服务连接",
+  "purpose": "使用已保存配置真实请求 Jina，校验返回维度与配置一致。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/settings/models/test",
+    "json": {
+      "target": "embedding"
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1539,
+  "response": {
+    "ok": true,
+    "target": "embedding",
+    "message": "向量服务连接成功，返回维度校验通过",
+    "latency_ms": 1535,
+    "detail": {
+      "model": "jina-embeddings-v3",
+      "dimension": 1024,
+      "degraded": false
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "188",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:10 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "ok 等于 True",
+      "ok": true,
+      "detail": "ok = True，预期 True"
+    },
+    {
+      "label": "target 等于 'embedding'",
+      "ok": true,
+      "detail": "target = 'embedding'，预期 'embedding'"
+    },
+    {
+      "label": "detail.dimension 等于 1024",
+      "ok": true,
+      "detail": "detail.dimension = 1024，预期 1024"
+    },
+    {
+      "label": "detail.degraded 等于 False",
+      "ok": true,
+      "detail": "detail.degraded = False，预期 False"
+    },
+    {
+      "label": "latency_ms >= 1",
+      "ok": true,
+      "detail": "latency_ms = 1535，预期 >= 1"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:12"
+}

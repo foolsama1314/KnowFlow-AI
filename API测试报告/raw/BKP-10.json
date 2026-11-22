@@ -1,0 +1,55 @@
+{
+  "id": "BKP-10",
+  "group": "备份恢复",
+  "title": "创建含密钥备份（可选）",
+  "purpose": "显式请求 include_secrets=true 时，备份应标记包含密钥。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup",
+    "json": {
+      "include_secrets": true
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 167,
+  "response": {
+    "name": "knowflow-backup-20261122-195921.zip",
+    "size": 495556,
+    "created_at": "2026-11-22T19:59:21.946880",
+    "secrets_included": true,
+    "format_version": 1
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "145",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:21 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "secrets_included 等于 True",
+      "ok": true,
+      "detail": "secrets_included = True，预期 True"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "name=knowflow-backup-20261122-195921.zip"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:22"
+}

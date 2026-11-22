@@ -1,0 +1,40 @@
+{
+  "id": "CHAT-19",
+  "group": "智能问答",
+  "title": "删除会话",
+  "purpose": "删除测试会话应返回 204。",
+  "request": {
+    "method": "DELETE",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea"
+  },
+  "expected": [
+    204
+  ],
+  "actual_status": 204,
+  "reason": "No Content",
+  "duration_ms": 9,
+  "response": {
+    "binary": true,
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "magic": "",
+    "preview": ""
+  },
+  "response_headers": {
+    "connection": "close",
+    "date": "Sun, 22 Nov 2026 11:58:54 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [204]，实际 204"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:54"
+}

@@ -1,0 +1,75 @@
+{
+  "id": "SYS-03",
+  "group": "系统",
+  "title": "知识库统计",
+  "purpose": "验证文档数、文本块数、文件类型分布与任务统计来自真实数据库。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/system/stats"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 11,
+  "response": {
+    "document_count": 3,
+    "chunk_count": 11,
+    "storage_bytes": 9047,
+    "task_running": 0,
+    "task_failed": 0,
+    "by_file_type": {
+      "md": 1,
+      "pdf": 1,
+      "txt": 1
+    },
+    "by_status": {
+      "completed": 3
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "159",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:08 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "document_count >= 3",
+      "ok": true,
+      "detail": "document_count = 3，预期 >= 3"
+    },
+    {
+      "label": "chunk_count >= 11",
+      "ok": true,
+      "detail": "chunk_count = 11，预期 >= 11"
+    },
+    {
+      "label": "storage_bytes >= 1",
+      "ok": true,
+      "detail": "storage_bytes = 9047，预期 >= 1"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "by_file_type = {'md': 1, 'pdf': 1, 'txt': 1}"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "by_status = {'completed': 3}"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:09"
+}

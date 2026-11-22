@@ -1,0 +1,58 @@
+{
+  "id": "REP-12",
+  "group": "研究报告",
+  "title": "生成时文档列表为空",
+  "purpose": "document_ids 至少 1 个，空数组应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/reports/generate",
+    "json": {
+      "topic": "测试",
+      "document_ids": [],
+      "top_k": 4
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 4,
+  "response": {
+    "detail": [
+      {
+        "type": "too_short",
+        "loc": [
+          "body",
+          "document_ids"
+        ],
+        "msg": "List should have at least 1 item after validation, not 0",
+        "input": [],
+        "ctx": {
+          "field_type": "List",
+          "min_length": 1,
+          "actual_length": 0
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "200",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "CHAT-13",
+  "group": "智能问答",
+  "title": "问答 top_k 上界校验",
+  "purpose": "top_k 最大 20，21 应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea/messages",
+    "json": {
+      "question": "RAG",
+      "stream": false,
+      "top_k": 21
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 24,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "body",
+          "top_k"
+        ],
+        "msg": "Input should be less than or equal to 20",
+        "input": 21,
+        "ctx": {
+          "le": 20
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "138",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:45 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:47"
+}

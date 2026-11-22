@@ -1,0 +1,56 @@
+{
+  "id": "DOC-18",
+  "group": "文档管理",
+  "title": "重复文件拦截",
+  "purpose": "上传内容完全相同的文件，应返回 409 并提示已存在。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/upload",
+    "files": [
+      {
+        "field": "file",
+        "filename": "api-test-upload-copy.txt",
+        "size": 474
+      }
+    ]
+  },
+  "expected": [
+    409
+  ],
+  "actual_status": 409,
+  "reason": "Conflict",
+  "duration_ms": 6,
+  "response": {
+    "detail": "该文件已存在：api-test-upload（a9538bd8），无需重复上传；如需重新解析请在文档详情中操作",
+    "code": "conflict"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "150",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [409]，实际 409"
+    },
+    {
+      "label": "code 等于 'conflict'",
+      "ok": true,
+      "detail": "code = 'conflict'，预期 'conflict'"
+    },
+    {
+      "label": "detail 包含 '已存在'",
+      "ok": true,
+      "detail": "detail 包含 '已存在'：'该文件已存在：api-test-upload（a9538bd8），无需重复上传；如需重新解析请在文档详情中操作'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:19"
+}

@@ -1,0 +1,130 @@
+{
+  "id": "ANA-02",
+  "group": "多文档分析",
+  "title": "单文档智能总结",
+  "purpose": "对课程笔记生成固定四节总结。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/analysis/summary",
+    "json": {
+      "mode": "summary",
+      "document_ids": [
+        "66ded2ab-71e0-45c6-be94-5f06ca1c3b49"
+      ],
+      "topic": "课程笔记核心内容",
+      "top_k": 3
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 5023,
+  "response": {
+    "mode": "summary",
+    "topic": "课程笔记核心内容",
+    "sections": [
+      {
+        "title": "核心观点",
+        "content": "资料整理应分层次推进，从统一存储到结构化标注，再到资料间互相引用，逐步提升资料的可管理性 [1]。检索与问答是两种不同性质的能力：检索只提供候选文档或片段，问答则在检索基础上完成归纳并保留引用，使用户可直接核对结论 [1]。溯源是知识管理的关键环节，因为大模型可能生成看似合理但无依据的内容，需通过强制引用、块级校验与原文跳转把生成结果转化为可核验知识 [1][2]。个人知识库的定位是服务单个用户，不追求多人协作与复杂权限，其价值在于把分散在网盘、收藏夹与相册中的资料整合为可搜索、可问答、可分析的统一知识底座 [2]。"
+      },
+      {
+        "title": "关键概念",
+        "content": "- **资料整理的三个层次**：存储（统一入口）、结构化（分类、标签与来源）、关联（资料间互相引用）[1]。\n- **检索**：给出候选文档或片段，用户仍需自己阅读 [1]。\n- **问答**：在检索基础上完成归纳并保留引用，用户可直接核对结论 [1]。\n- **溯源手段**：强制引用、块级校验、原文跳转 [1][2]。\n- **个人知识库**：服务单个用户、不追求多人协作与复杂权限的知识底座 [2]。"
+      },
+      {
+        "title": "重要结论",
+        "content": "- 资料整理不能停留在存储层面，需通过结构化与关联提升可用性 [1]。\n- 问答相较检索增加了归纳与引用环节，使用户可直接核对结论而非自行阅读原始片段 [1]。\n- 强制引用、块级校验与原文跳转是把生成结果转化为可核验知识的关键手段 [1][2]。\n- 个人知识库的价值在于将分散于网盘、收藏夹与相册的资料变为可搜索、可问答、可分析的统一知识底座 [2]。\n- 实践上应每周固定时间导入新资料，先检查任务中心是否有失败任务，再用三个不同说法检索同一知识点以检验召回稳定性 [2]。"
+      },
+      {
+        "title": "待研究问题",
+        "content": "资料未涉及资料整理三层次的具体实现方式、块级校验的技术细节，以及召回稳定性的判定标准；资料不足，无法判断。"
+      }
+    ],
+    "citations": [
+      {
+        "chunk_id": "53233741-1f5a-457d-9c55-e4b6eb192eb5",
+        "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+        "document_name": "课程笔记.txt",
+        "file_type": "txt",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "课程笔记：知识管理方法\n一、资料整理的三个层次\n第一层是存储，把资料放进统一入口；第二层是结构化，让资料带上分类、标签与来源；第三层是关联，让资料之间能够互相引用。\n二、检索与问答的区别\n检索给出候选文档或片段，用户仍需自己阅读；问答在检索基础上完成归纳，并保留引用，用户可以直接核对结论。\n三、为什么要做溯源\n大模型可能生成看似合理但没有依据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为",
+        "score": 0.6861,
+        "cited": true
+      },
+      {
+        "chunk_id": "cd815f1e-f8f1-490c-8a2d-64b088c3502d",
+        "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+        "document_name": "课程笔记.txt",
+        "file_type": "txt",
+        "page_from": 1,
+        "page_to": 1,
+        "snippet": "据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为可核验知识的关键手段。\n四、个人知识库的边界\n个人知识库服务单个用户，不追求多人协作与复杂权限。它的价值在于把分散在网盘、收藏夹与相册中的资料，变成可以搜索、可以问答、可以分析的统一知识底座。\n五、实践建议\n每周固定时间导入新资料，先看任务中心是否有失败任务，再用三个不同说法检索同一个知识点，检查召回是否稳定。",
+        "score": 0.5471,
+        "cited": true
+      }
+    ],
+    "retrieval_count": 2,
+    "truncated": false,
+    "refusal": false,
+    "message": "",
+    "model": "deepseek-chat",
+    "took_ms": 5003
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "3991",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:01 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "mode 等于 'summary'",
+      "ok": true,
+      "detail": "mode = 'summary'，预期 'summary'"
+    },
+    {
+      "label": "sections 长度 >= 4",
+      "ok": true,
+      "detail": "sections 长度 = 4，预期 >= 4"
+    },
+    {
+      "label": "sections.0.title 等于 '核心观点'",
+      "ok": true,
+      "detail": "sections.0.title = '核心观点'，预期 '核心观点'"
+    },
+    {
+      "label": "sections.1.title 等于 '关键概念'",
+      "ok": true,
+      "detail": "sections.1.title = '关键概念'，预期 '关键概念'"
+    },
+    {
+      "label": "sections.2.title 等于 '重要结论'",
+      "ok": true,
+      "detail": "sections.2.title = '重要结论'，预期 '重要结论'"
+    },
+    {
+      "label": "sections.3.title 等于 '待研究问题'",
+      "ok": true,
+      "detail": "sections.3.title = '待研究问题'，预期 '待研究问题'"
+    },
+    {
+      "label": "refusal 等于 False",
+      "ok": true,
+      "detail": "refusal = False，预期 False"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:07"
+}

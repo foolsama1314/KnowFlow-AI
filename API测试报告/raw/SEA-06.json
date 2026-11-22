@@ -1,0 +1,55 @@
+{
+  "id": "SEA-06",
+  "group": "语义检索",
+  "title": "top_k 上界校验",
+  "purpose": "top_k 最大 50，51 应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/search",
+    "json": {
+      "query": "RAG",
+      "top_k": 51
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 6,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "body",
+          "top_k"
+        ],
+        "msg": "Input should be less than or equal to 50",
+        "input": 51,
+        "ctx": {
+          "le": 50
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "138",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:29 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:30"
+}

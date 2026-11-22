@@ -1,0 +1,61 @@
+{
+  "id": "DOC-13",
+  "group": "文档管理",
+  "title": "原始文件预览",
+  "purpose": "验证 PDF 预览返回 application/pdf 且文件非空。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents/71f8776d-e81e-4949-9a66-d9df0dbab55f/preview"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 57,
+  "response": {
+    "binary": true,
+    "size": 7122,
+    "sha256": "d1992f85f2caabaac46f8c125031f5479ea50492d32e0f68224f25ccabea27c5",
+    "magic": "25504446",
+    "preview": "%PDF-1.7\n%µ¶\n% Written by MuPDF 1.28.6\n\n1 0 obj\n<</Type/Catalog/Pages 2 0 R/Info<</Producer(MuPDF 1.28.6)>>>>\nendobj\n\n2 0 obj\n<</Type/Pages/Count 3/Kids[4 0 R 18 0 R 29 0 R]>>\nendobj\n\n3 0 obj\n<</Font<</china-s 5 0 R>>>>\nendobj\n\n4 0 obj\n<<"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "7122",
+    "accept-ranges": "bytes",
+    "content-disposition": "inline; filename*=UTF-8''RAG%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88.pdf",
+    "content-type": "application/pdf",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "etag": "\"aed6353fd2c5c0c47cb5cebc3d76a621\"",
+    "last-modified": "Wed, 18 Nov 2026 13:10:47 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "响应头 content-type 以 'application/pdf' 开头",
+      "ok": true,
+      "detail": "content-type = 'application/pdf'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "文件大小 = 7122 字节"
+    },
+    {
+      "label": "文件魔数为 25504446",
+      "ok": true,
+      "detail": "magic = 25504446，预期 25504446"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

@@ -1,0 +1,73 @@
+{
+  "id": "SET-03",
+  "group": "系统设置",
+  "title": "保存相同模型配置",
+  "purpose": "提交与当前完全一致的模型配置，确认不触发重建索引。",
+  "request": {
+    "method": "PUT",
+    "url": "http://127.0.0.1:8011/api/v1/settings/models",
+    "json": {
+      "llm_provider": "openai_compatible",
+      "llm_base_url": "https://api.deepseek.com/v1",
+      "llm_model": "deepseek-chat",
+      "embedding_provider": "openai_compatible",
+      "embedding_base_url": "https://api.jina.ai/v1",
+      "embedding_model": "jina-embeddings-v3",
+      "embedding_dim": 1024
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 26,
+  "response": {
+    "llm_provider": "openai_compatible",
+    "llm_base_url": "https://api.deepseek.com/v1",
+    "llm_model": "deepseek-chat",
+    "llm_has_key": true,
+    "llm_configured": true,
+    "embedding_provider": "openai_compatible",
+    "embedding_base_url": "https://api.jina.ai/v1",
+    "embedding_model": "jina-embeddings-v3",
+    "embedding_dim": 1024,
+    "embedding_has_key": true,
+    "embedding_configured": true,
+    "embedding_degraded": false
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "377",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:08 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "llm_configured 等于 True",
+      "ok": true,
+      "detail": "llm_configured = True，预期 True"
+    },
+    {
+      "label": "embedding_configured 等于 True",
+      "ok": true,
+      "detail": "embedding_configured = True，预期 True"
+    },
+    {
+      "label": "embedding_degraded 等于 False",
+      "ok": true,
+      "detail": "embedding_degraded = False，预期 False"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:09"
+}

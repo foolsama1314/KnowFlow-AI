@@ -1,0 +1,78 @@
+{
+  "id": "ANA-04",
+  "group": "多文档分析",
+  "title": "文档数量上限校验",
+  "purpose": "document_ids 最多 8 个，9 个应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/analysis",
+    "json": {
+      "mode": "compare",
+      "document_ids": [
+        "36ddbdab-d5ce-4bf2-853d-7cd3c6c91d0f",
+        "8fa4bfd8-61fd-4e2d-be78-af9aaa826086",
+        "8efe7618-72ea-422d-af14-67bf1cafbce7",
+        "e6d18e76-6ad5-4d03-a7d1-2265499cc9ed",
+        "0bbaff68-12c3-46a3-98d9-9ce46475683d",
+        "a936b3fe-d2ff-44eb-b593-fa101963af97",
+        "e8dd6aa8-3fca-41d9-99de-beff884a71aa",
+        "41ee04de-8892-4014-990b-c9312cf470d2",
+        "8347dfb7-b500-4bf8-b7ff-4dabfbac9b76"
+      ],
+      "topic": "测试"
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 6,
+  "response": {
+    "detail": [
+      {
+        "type": "too_long",
+        "loc": [
+          "body",
+          "document_ids"
+        ],
+        "msg": "List should have at most 8 items after validation, not 9",
+        "input": [
+          "36ddbdab-d5ce-4bf2-853d-7cd3c6c91d0f",
+          "8fa4bfd8-61fd-4e2d-be78-af9aaa826086",
+          "8efe7618-72ea-422d-af14-67bf1cafbce7",
+          "e6d18e76-6ad5-4d03-a7d1-2265499cc9ed",
+          "0bbaff68-12c3-46a3-98d9-9ce46475683d",
+          "a936b3fe-d2ff-44eb-b593-fa101963af97",
+          "e8dd6aa8-3fca-41d9-99de-beff884a71aa",
+          "41ee04de-8892-4014-990b-c9312cf470d2",
+          "8347dfb7-b500-4bf8-b7ff-4dabfbac9b76"
+        ],
+        "ctx": {
+          "field_type": "List",
+          "max_length": 8,
+          "actual_length": 9
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "549",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:07 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:07"
+}

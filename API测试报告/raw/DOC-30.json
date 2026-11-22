@@ -1,0 +1,35 @@
+{
+  "id": "DOC-30",
+  "group": "文档管理",
+  "title": "删除批量文档",
+  "purpose": "删除 batch-a 文档，应返回 204 并在后续查询中消失。",
+  "request": {
+    "method": "DELETE",
+    "url": "http://127.0.0.1:8011/api/v1/documents/38f7a309-a1b4-4cd8-ad7c-e1157bd653dc"
+  },
+  "expected": [
+    204
+  ],
+  "actual_status": 204,
+  "reason": "No Content",
+  "duration_ms": 26,
+  "response": "",
+  "response_headers": {
+    "connection": "close",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:23 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [204]，实际 204"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:23"
+}

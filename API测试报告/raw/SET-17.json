@@ -1,0 +1,59 @@
+{
+  "id": "SET-17",
+  "group": "系统设置",
+  "title": "RAG top_k 越界",
+  "purpose": "rag_top_k 允许 1–20，21 应被拒绝。",
+  "request": {
+    "method": "PUT",
+    "url": "http://127.0.0.1:8011/api/v1/settings",
+    "json": {
+      "rag": {
+        "rag_top_k": 21,
+        "rag_min_score": 0.5,
+        "rag_context_chars": 6000
+      }
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 30,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "body",
+          "rag",
+          "rag_top_k"
+        ],
+        "msg": "Input should be less than or equal to 20",
+        "input": 21,
+        "ctx": {
+          "le": 20
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "148",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:15 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:15"
+}

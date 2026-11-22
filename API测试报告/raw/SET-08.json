@@ -1,0 +1,63 @@
+{
+  "id": "SET-08",
+  "group": "系统设置",
+  "title": "错误 LLM Key 不伪造成功",
+  "purpose": "临时提交无效 Key 测试连接，确认返回 ok=false 并携带真实错误信息。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/settings/models/test",
+    "json": {
+      "target": "llm",
+      "models": {
+        "llm_api_key": "***REDACTED***"
+      }
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1114,
+  "response": {
+    "ok": false,
+    "target": "llm",
+    "message": "模型服务返回错误：HTTP 401: Authentication Fails, Your api key: ****test is invalid (request_id: e9914218-c887-46a3-8971-25abfe189521)",
+    "latency_ms": 1094,
+    "detail": {}
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "213",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:12 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "ok 等于 False",
+      "ok": true,
+      "detail": "ok = False，预期 False"
+    },
+    {
+      "label": "message 不等于 ''",
+      "ok": true,
+      "detail": "message = '模型服务返回错误：HTTP 401: Authentication Fails, Your api key: ****test is invalid (request_id: e9914218-c887-46a3-8971-25abfe189521)'，不应等于 ''"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "message = '模型服务返回错误：HTTP 401: Authentication Fails, Your api key: ****test is invalid (request_id: e9914218-c887-46a3-8971-25abfe189521)'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:13"
+}

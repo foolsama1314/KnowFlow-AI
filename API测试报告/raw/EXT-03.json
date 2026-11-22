@@ -1,0 +1,70 @@
+{
+  "id": "EXT-03",
+  "group": "外部模型服务",
+  "title": "DeepSeek LLM 鉴权失败处理",
+  "purpose": "使用无效 API Key 调用，确认服务端拒绝并返回鉴权错误，而不是伪造成功。",
+  "request": {
+    "method": "POST",
+    "url": "https://api.deepseek.com/v1/chat/completions",
+    "headers": {
+      "Authorization": "***REDACTED***",
+      "Content-Type": "application/json"
+    },
+    "json": {
+      "model": "deepseek-chat",
+      "messages": [
+        {
+          "role": "user",
+          "content": "hi"
+        }
+      ],
+      "temperature": 0
+    }
+  },
+  "expected": [
+    401,
+    403
+  ],
+  "actual_status": 401,
+  "reason": "Authorization Required",
+  "duration_ms": 195,
+  "response": {
+    "error": {
+      "message": "Authentication Fails, Your api key: ****test is invalid (request_id: 84e8768d-b105-4fe7-b8b8-4f492f1d8679)",
+      "type": "authentication_error",
+      "param": null,
+      "code": "invalid_request_error"
+    }
+  },
+  "response_headers": {
+    "server": "openresty",
+    "content-type": "application/json",
+    "vary": "accept-encoding,origin, access-control-request-method, access-control-request-headers",
+    "content-encoding": "gzip",
+    "access-control-allow-credentials": "true",
+    "x-ds-trace-id": "13b076f393c16e1aa5a292aba6beaebc",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "date": "Sun, 22 Nov 2026 11:58:12 GMT",
+    "eo-log-uuid": "14305773186196609902",
+    "eo-cache-status": "MISS"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [401, 403]，实际 401"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "错误信息：Authentication Fails, Your api key: ****test is invalid (request_id: 84e8768d-b105-4fe7-b8b8-4f492f1d8679)"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "无效 Key 为测试专用字符串，不涉及任何真实密钥。",
+  "at": "2026-11-22T19:58:07"
+}

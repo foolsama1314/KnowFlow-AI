@@ -1,0 +1,56 @@
+{
+  "id": "X-03",
+  "group": "通用协议",
+  "title": "CORS 预检",
+  "purpose": "来自 localhost 前端源的预检请求应被允许。",
+  "request": {
+    "method": "OPTIONS",
+    "url": "http://127.0.0.1:8011/api/v1/documents",
+    "headers": {
+      "Origin": "http://localhost:5173",
+      "Access-Control-Request-Method": "GET",
+      "Access-Control-Request-Headers": "content-type"
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 24,
+  "response": "OK",
+  "response_headers": {
+    "connection": "close",
+    "content-length": "2",
+    "access-control-allow-credentials": "true",
+    "access-control-allow-headers": "content-type",
+    "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY",
+    "access-control-allow-origin": "http://localhost:5173",
+    "access-control-max-age": "600",
+    "content-type": "text/plain; charset=utf-8",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Request-Private-Network"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "allow-origin=http://localhost:5173"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "allow-methods=DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, QUERY"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

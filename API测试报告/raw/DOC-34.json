@@ -1,0 +1,39 @@
+{
+  "id": "DOC-34",
+  "group": "文档管理",
+  "title": "删除不存在文档",
+  "purpose": "随机 UUID 删除应返回 404。",
+  "request": {
+    "method": "DELETE",
+    "url": "http://127.0.0.1:8011/api/v1/documents/7cd0d450-43d4-4ce8-9750-56604af93c2d"
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 5,
+  "response": {
+    "detail": "文档不存在或已被删除",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "62",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:25 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:25"
+}

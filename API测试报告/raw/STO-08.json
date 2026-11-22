@@ -1,0 +1,61 @@
+{
+  "id": "STO-08",
+  "group": "存储位置",
+  "title": "恢复默认存储位置",
+  "purpose": "恢复默认目录（不迁移）应成功并清除自定义标记。",
+  "request": {
+    "method": "DELETE",
+    "url": "http://127.0.0.1:8011/api/v1/system/storage",
+    "query": {
+      "migrate": false
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 20,
+  "response": {
+    "data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\data",
+    "default_data_dir": "C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\data",
+    "custom": false,
+    "exists": true,
+    "restart_required": true,
+    "message": "已恢复默认存储位置，请关闭并重新打开应用后生效。当前数据已迁移到默认目录。"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "366",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "custom 等于 False",
+      "ok": true,
+      "detail": "custom = False，预期 False"
+    },
+    {
+      "label": "restart_required 等于 True",
+      "ok": true,
+      "detail": "restart_required = True，预期 True"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "data_dir=C:\\Users\\foolsama\\AppData\\Local\\Temp\\knowflow_api_test\\run_root\\data"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "BKP-18",
+  "group": "备份恢复",
+  "title": "恢复后健康检查",
+  "purpose": "恢复完成后数据库与 Qdrant 均健康。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/system/health"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 4,
+  "response": {
+    "status": "ok",
+    "version": "0.1.0",
+    "database": true,
+    "qdrant": true
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "63",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:26 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "status 等于 'ok'",
+      "ok": true,
+      "detail": "status = 'ok'，预期 'ok'"
+    },
+    {
+      "label": "database 等于 True",
+      "ok": true,
+      "detail": "database = True，预期 True"
+    },
+    {
+      "label": "qdrant 等于 True",
+      "ok": true,
+      "detail": "qdrant = True，预期 True"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:27"
+}

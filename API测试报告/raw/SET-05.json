@@ -1,0 +1,72 @@
+{
+  "id": "SET-05",
+  "group": "系统设置",
+  "title": "测试大模型连接",
+  "purpose": "使用已保存配置真实请求 DeepSeek，返回成功与延迟。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/settings/models/test",
+    "json": {
+      "target": "llm"
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 1658,
+  "response": {
+    "ok": true,
+    "target": "llm",
+    "message": "大模型连接成功：连接成功",
+    "latency_ms": 1654,
+    "detail": {
+      "model": "deepseek-chat"
+    }
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "128",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:08 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "ok 等于 True",
+      "ok": true,
+      "detail": "ok = True，预期 True"
+    },
+    {
+      "label": "target 等于 'llm'",
+      "ok": true,
+      "detail": "target = 'llm'，预期 'llm'"
+    },
+    {
+      "label": "latency_ms >= 1",
+      "ok": true,
+      "detail": "latency_ms = 1654，预期 >= 1"
+    },
+    {
+      "label": "message 包含 '连接成功'",
+      "ok": true,
+      "detail": "message 包含 '连接成功'：'大模型连接成功：连接成功'"
+    },
+    {
+      "label": "detail.model 等于 'deepseek-chat'",
+      "ok": true,
+      "detail": "detail.model = 'deepseek-chat'，预期 'deepseek-chat'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:10"
+}

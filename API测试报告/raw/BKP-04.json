@@ -1,0 +1,90 @@
+{
+  "id": "BKP-04",
+  "group": "备份恢复",
+  "title": "校验备份完整性",
+  "purpose": "上传刚下载的备份包，验证 manifest、SHA256、数据库结构。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/backup/validate",
+    "files": [
+      {
+        "field": "file",
+        "filename": "knowflow-backup-20261122-195920.zip",
+        "size": 495452
+      }
+    ]
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 37,
+  "response": {
+    "name": "ab4f6690531640c698677004312e1a6c.zip",
+    "format_version": 1,
+    "app_version": "0.1.0",
+    "created_at": "2026-11-22T19:59:20.462722",
+    "secrets_included": false,
+    "qdrant_mode": "local",
+    "collection": "document_chunks",
+    "dimension": 1024,
+    "document_count": 4,
+    "chunk_count": 12,
+    "file_count": 16
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "277",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:20 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "format_version 等于 1",
+      "ok": true,
+      "detail": "format_version = 1，预期 1"
+    },
+    {
+      "label": "secrets_included 等于 False",
+      "ok": true,
+      "detail": "secrets_included = False，预期 False"
+    },
+    {
+      "label": "document_count >= 4",
+      "ok": true,
+      "detail": "document_count = 4，预期 >= 4"
+    },
+    {
+      "label": "chunk_count >= 11",
+      "ok": true,
+      "detail": "chunk_count = 12，预期 >= 11"
+    },
+    {
+      "label": "file_count >= 1",
+      "ok": true,
+      "detail": "file_count = 16，预期 >= 1"
+    },
+    {
+      "label": "qdrant_mode 等于 'local'",
+      "ok": true,
+      "detail": "qdrant_mode = 'local'，预期 'local'"
+    },
+    {
+      "label": "collection 等于 'document_chunks'",
+      "ok": true,
+      "detail": "collection = 'document_chunks'，预期 'document_chunks'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:20"
+}

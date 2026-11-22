@@ -1,0 +1,84 @@
+{
+  "id": "DOC-21",
+  "group": "文档管理",
+  "title": "批量上传混合成功/失败",
+  "purpose": "一次提交 2 个合法文件与 1 个非法文件，验证逐文件隔离失败。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/documents/batch-upload",
+    "files": [
+      {
+        "field": "files",
+        "filename": "batch-a.txt"
+      },
+      {
+        "field": "files",
+        "filename": "batch-b.txt"
+      },
+      {
+        "field": "files",
+        "filename": "bad.exe"
+      }
+    ]
+  },
+  "expected": [
+    201
+  ],
+  "actual_status": 201,
+  "reason": "Created",
+  "duration_ms": 0,
+  "response": {
+    "succeeded": [
+      {
+        "document_id": "38f7a309-a1b4-4cd8-ad7c-e1157bd653dc",
+        "task_id": "17ee652b-91dd-41c6-a81b-8c47d5724170",
+        "name": "batch-a.txt"
+      },
+      {
+        "document_id": "2c44b0d2-ba07-4294-a387-3e5a1f820f77",
+        "task_id": "72aa639a-3ccc-48e8-afcf-e17624e9296a",
+        "name": "batch-b.txt"
+      }
+    ],
+    "failed": [
+      {
+        "name": "bad.exe",
+        "message": "暂不支持 .exe 格式，当前支持：pdf、docx、txt、md、markdown、jpg、jpeg、png、bmp、webp"
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "414",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "实际 201"
+    },
+    {
+      "label": "2 个合法文件成功",
+      "ok": true,
+      "detail": "succeeded=2"
+    },
+    {
+      "label": "1 个非法文件失败",
+      "ok": true,
+      "detail": "failed=1"
+    },
+    {
+      "label": "失败原因明确",
+      "ok": true,
+      "detail": "[{'name': 'bad.exe', 'message': '暂不支持 .exe 格式，当前支持：pdf、docx、txt、md、markdown、jpg、jpeg、png、bmp、webp'}]"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "坏文件不会阻断其他文件入库。",
+  "at": "2026-11-22T19:58:19"
+}

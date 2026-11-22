@@ -1,0 +1,61 @@
+{
+  "id": "REP-02",
+  "group": "研究报告",
+  "title": "报告历史列表",
+  "purpose": "确认刚生成的报告出现在历史列表中。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/reports",
+    "query": {
+      "limit": 20
+    }
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 13,
+  "response": [
+    {
+      "report_id": "6b7a639b4a054a27bcb00d23ee5cd19b",
+      "title": "RAG 技术应用研究 研究报告",
+      "topic": "RAG 技术应用研究",
+      "created_at": "2026-11-22T19:59:18.534265",
+      "citation_count": 7,
+      "formats": [
+        "md",
+        "docx"
+      ]
+    }
+  ],
+  "response_headers": {
+    "connection": "close",
+    "content-length": "214",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "响应 长度 >= 1",
+      "ok": true,
+      "detail": " 长度 = 1，预期 >= 1"
+    },
+    {
+      "label": "响应 存在满足条件的项",
+      "ok": true,
+      "detail": " 共 1 项，满足条件 1 项"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "TSK-07",
+  "group": "任务中心",
+  "title": "读取任务详情",
+  "purpose": "按 ID 读取任务并确认文档名称已关联。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/tasks/96290fb5-20fc-44af-bf34-210ac3c22dae"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 18,
+  "response": {
+    "id": "96290fb5-20fc-44af-bf34-210ac3c22dae",
+    "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+    "task_type": "parse",
+    "status": "completed",
+    "progress": 100,
+    "current_step": "已完成",
+    "error_message": null,
+    "retry_count": 0,
+    "document_name": "课程笔记.txt",
+    "started_at": "2026-11-18T21:05:58.071855",
+    "finished_at": "2026-11-18T21:06:01.022305",
+    "created_at": "2026-11-18T21:05:58.067491"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "380",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:25 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "id 等于 '96290fb5-20fc-44af-bf34-210ac3c22dae'",
+      "ok": true,
+      "detail": "id = '96290fb5-20fc-44af-bf34-210ac3c22dae'，预期 '96290fb5-20fc-44af-bf34-210ac3c22dae'"
+    },
+    {
+      "label": "status 等于 'completed'",
+      "ok": true,
+      "detail": "status = 'completed'，预期 'completed'"
+    },
+    {
+      "label": "document_name 为真值",
+      "ok": true,
+      "detail": "document_name = '课程笔记.txt'"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:25"
+}

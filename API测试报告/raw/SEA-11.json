@@ -1,0 +1,56 @@
+{
+  "id": "SEA-11",
+  "group": "语义检索",
+  "title": "过滤类型错误校验",
+  "purpose": "filters.file_types 必须是数组，传字符串应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/search",
+    "json": {
+      "query": "RAG",
+      "top_k": 5,
+      "filters": {
+        "file_types": "pdf"
+      }
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 19,
+  "response": {
+    "detail": [
+      {
+        "type": "list_type",
+        "loc": [
+          "body",
+          "filters",
+          "file_types"
+        ],
+        "msg": "Input should be a valid list",
+        "input": "pdf"
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "122",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:36 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:36"
+}

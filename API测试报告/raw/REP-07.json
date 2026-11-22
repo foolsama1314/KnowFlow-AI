@@ -1,0 +1,39 @@
+{
+  "id": "REP-07",
+  "group": "研究报告",
+  "title": "报告不存在",
+  "purpose": "合法格式但不存在的报告 ID 应返回 404。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/reports/e3dba61a9caa4fcbb85c209328e1cd26"
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 4,
+  "response": {
+    "detail": "报告不存在或已被删除",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "62",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:18 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:18"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "ANA-09",
+  "group": "多文档分析",
+  "title": "分析 top_k 上界",
+  "purpose": "top_k 最大 8，9 应返回 422。",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:8011/api/v1/analysis",
+    "json": {
+      "mode": "compare",
+      "document_ids": [
+        "71f8776d-e81e-4949-9a66-d9df0dbab55f"
+      ],
+      "topic": "测试",
+      "top_k": 9
+    }
+  },
+  "expected": [
+    422
+  ],
+  "actual_status": 422,
+  "reason": "Unprocessable Entity",
+  "duration_ms": 17,
+  "response": {
+    "detail": [
+      {
+        "type": "less_than_equal",
+        "loc": [
+          "body",
+          "top_k"
+        ],
+        "msg": "Input should be less than or equal to 8",
+        "input": 9,
+        "ctx": {
+          "le": 8
+        }
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "135",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:07 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [422]，实际 422"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:07"
+}

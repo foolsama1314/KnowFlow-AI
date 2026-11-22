@@ -1,0 +1,348 @@
+{
+  "id": "CHAT-18",
+  "group": "智能问答",
+  "title": "会话消息与引用持久化",
+  "purpose": "确认用户问题、助手回答和引用均已落库，刷新后可回放。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/72061525-ca57-406b-80f6-1cf6b91af2ea"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 7,
+  "response": {
+    "session": {
+      "id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+      "title": "API 测试会话",
+      "created_at": "2026-11-22T19:58:43.853634",
+      "updated_at": "2026-11-22T19:58:54.412895"
+    },
+    "messages": [
+      {
+        "id": "83f5a7bc-b60a-443e-8049-14c716d29196",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "user",
+        "content": "RAG 的四个核心环节是什么？",
+        "citations": null,
+        "created_at": "2026-11-22T19:58:43.976726"
+      },
+      {
+        "id": "95421ab3-8982-48b8-8bf2-fa9987a7d89e",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "assistant",
+        "content": "RAG 的四个核心环节是：文档解析、文本切块、向量化入库、检索与生成。[1][3]",
+        "citations": [
+          {
+            "chunk_id": "ab045ff3-662f-4507-9b98-3c73b2ea29a0",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响",
+            "score": 0.6461,
+            "cited": true
+          },
+          {
+            "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+            "score": 0.5358,
+            "cited": false
+          },
+          {
+            "chunk_id": "15bfb62a-ad7f-4cfe-acd4-d70635ff5da5",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 1,
+            "page_to": 2,
+            "snippet": "含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制",
+            "score": 0.4834,
+            "cited": true
+          },
+          {
+            "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 3,
+            "page_to": 3,
+            "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+            "score": 0.4757,
+            "cited": false
+          },
+          {
+            "chunk_id": "2eba4682-0464-4b95-a702-e48e59fc0fcb",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 2,
+            "page_to": 3,
+            "snippet": "集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法",
+            "score": 0.4698,
+            "cited": false
+          }
+        ],
+        "created_at": "2026-11-22T19:58:47.239109"
+      },
+      {
+        "id": "25b4bfa3-ddc4-442d-bbf1-11f8a481bdaa",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "user",
+        "content": "今天北京天气怎么样？",
+        "citations": null,
+        "created_at": "2026-11-22T19:58:47.296629"
+      },
+      {
+        "id": "5b2b57fe-df41-4143-9f77-50b80a4ec86d",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "assistant",
+        "content": "知识库中没有找到足够相关的内容，无法回答。",
+        "citations": [
+          {
+            "chunk_id": "2ae22696-5be2-4c0f-8f80-06d4105003b9",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 2,
+            "page_to": 2,
+            "snippet": "召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制\n可靠的问答系统需要做到块级引用：每个结论句都绑定真实存在的文本块，并能在界面上跳转到原\n文页码。\n如果引用的文本块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区",
+            "score": 0.3417,
+            "cited": false
+          },
+          {
+            "chunk_id": "ec0f36e4-c495-4d65-8491-ac2a6f72d995",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 2,
+            "page_to": 2,
+            "snippet": "块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议",
+            "score": 0.3331,
+            "cited": false
+          },
+          {
+            "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+            "score": 0.3265,
+            "cited": false
+          },
+          {
+            "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+            "score": 0.3183,
+            "cited": false
+          },
+          {
+            "chunk_id": "2eba4682-0464-4b95-a702-e48e59fc0fcb",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 2,
+            "page_to": 3,
+            "snippet": "集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议\n个人资料规模通常在千级，单机部署即可满足需求。优先保证上传、解析、切块、向量化、检索、\n来源定位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法",
+            "score": 0.3181,
+            "cited": false
+          }
+        ],
+        "created_at": "2026-11-22T19:58:49.045734"
+      },
+      {
+        "id": "fad1e3c0-8d40-4a8b-bbc2-57623db997be",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "user",
+        "content": "什么是检索增强生成？",
+        "citations": null,
+        "created_at": "2026-11-22T19:58:49.059972"
+      },
+      {
+        "id": "fda8aec8-3939-4b44-a511-6364a443e02c",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "assistant",
+        "content": "检索增强生成（Retrieval-Augmented Generation，简称 RAG）是一种把外部知识检索与大模型生成结合的方法。系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型基于证据生成答案。[1]",
+        "citations": [
+          {
+            "chunk_id": "ab045ff3-662f-4507-9b98-3c73b2ea29a0",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "检索增强生成（RAG）技术概览\n一、什么是 RAG\n检索增强生成（Retrieval-Augmented Generation，简称\nRAG）是一种把外部知识检索与大模型生成结合的方法。\n系统先从个人知识库中检索与问题相关的文本片段，再把这些片段作为上下文交给大模型，由模型\n基于证据生成答案。\n二、核心组成\nRAG 通常包含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响",
+            "score": 0.7427,
+            "cited": true
+          },
+          {
+            "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 3,
+            "page_to": 3,
+            "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+            "score": 0.6083,
+            "cited": false
+          },
+          {
+            "chunk_id": "15bfb62a-ad7f-4cfe-acd4-d70635ff5da5",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 1,
+            "page_to": 2,
+            "snippet": "含四个环节：文档解析、文本切块、向量化入库、检索与生成。\n三、检索质量的影响因素\n切块过大导致噪声增加，切块过小导致语义不完整，常见做法是 300 到 800\n个字符并保留一定重叠。\n向量模型的选择直接决定召回效果，切换向量模型后必须重建索引，否则相似度分数不可比较。\n四、答案溯源机制",
+            "score": 0.585,
+            "cited": false
+          },
+          {
+            "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+            "score": 0.5794,
+            "cited": false
+          },
+          {
+            "chunk_id": "ec0f36e4-c495-4d65-8491-ac2a6f72d995",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 2,
+            "page_to": 2,
+            "snippet": "块不在本次检索上下文中，后端应当拒绝该引用，而不是直接展示给用户。\n五、常见误区\n第一，把大模型当成数据库，直接让模型回答，没有检索过程；第二，只用关键词检索，无法处理\n同义表达；\n第三，忽略向量维度一致性，导致新旧数据混在同一个集合中；第四，缺少失败重试与任务状态管\n理，出现假成功。\n六、面向个人的落地建议",
+            "score": 0.5642,
+            "cited": false
+          }
+        ],
+        "created_at": "2026-11-22T19:58:52.601380"
+      },
+      {
+        "id": "64872887-8270-452a-a6bc-faaa9ab827e5",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "user",
+        "content": "如何制作法式甜点？",
+        "citations": null,
+        "created_at": "2026-11-22T19:58:52.617351"
+      },
+      {
+        "id": "1d6dd349-9baf-44fa-b619-5a054aa7e0a2",
+        "session_id": "72061525-ca57-406b-80f6-1cf6b91af2ea",
+        "role": "assistant",
+        "content": "知识库中没有找到足够相关的内容，无法回答。",
+        "citations": [
+          {
+            "chunk_id": "8b54d07b-bb14-4127-ad43-d8f7a0c39fca",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "个人知识库建设周报（第 12 周）\n本周完成\n- 完成多格式资料导入入口，支持 PDF、DOCX、TXT、Markdown 与图片。\n- 打通“上传 → 解析 → 切块 → 向量化 → 检索 → 来源定位”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题",
+            "score": 0.3412,
+            "cited": false
+          },
+          {
+            "chunk_id": "a6698545-aeb4-463e-a3f6-3f0f002d2800",
+            "document_id": "71f8776d-e81e-4949-9a66-d9df0dbab55f",
+            "document_name": "RAG技术概览.pdf",
+            "file_type": "pdf",
+            "page_from": 3,
+            "page_to": 3,
+            "snippet": "位这条主链路稳定，\n再逐步增加跨文档问答、知识图谱与报告生成能力。\n七、评测方法\n构建 100 到 200 条真实查询，人工标注相关文本块，统计\nRecall@20、Top-5 命中率与 MRR。\n所有指标必须实测后填写，不提前宣称达标。检索延迟以 P95 作为观察口径。\n八、与知识图谱的关系\n向量检索解决相似性问题，知识图谱解决实体之间的关联问题。两者共享同一份解析结果，\n图谱中的每条关系都应当",
+            "score": 0.3392,
+            "cited": false
+          },
+          {
+            "chunk_id": "9c9e32ba-47fc-492f-9f9f-1595c2472b26",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论\n主链路稳定性优先于界面动效；任何失败都必须记录在任务中心，不允许出现假成功状态。",
+            "score": 0.3184,
+            "cited": false
+          },
+          {
+            "chunk_id": "26fb6039-2d1f-46e2-ba97-cbe842bf3b2d",
+            "document_id": "1e52d76f-24a8-416e-b328-e339716fa228",
+            "document_name": "项目周报.md",
+            "file_type": "md",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "”主链路。\n- 检索结果支持展示文档名称、页码与原文片段，便于核对。\n遇到的问题\n1. 扫描版 PDF 缺少文本层，需要 OCR 才能检索。\n2. 部分文档切块过大，导致检索片段噪声较多。\n3. 切换向量模型后必须重建索引，否则维度不一致会报错。\n下周计划\n- 接入跨文档问答，并实现引用校验。\n- 设计知识图谱的实体与关系表结构。\n- 补充检索评测集，统计 Top-5 命中率与召回率。\n结论",
+            "score": 0.3162,
+            "cited": false
+          },
+          {
+            "chunk_id": "53233741-1f5a-457d-9c55-e4b6eb192eb5",
+            "document_id": "66ded2ab-71e0-45c6-be94-5f06ca1c3b49",
+            "document_name": "课程笔记.txt",
+            "file_type": "txt",
+            "page_from": 1,
+            "page_to": 1,
+            "snippet": "课程笔记：知识管理方法\n一、资料整理的三个层次\n第一层是存储，把资料放进统一入口；第二层是结构化，让资料带上分类、标签与来源；第三层是关联，让资料之间能够互相引用。\n二、检索与问答的区别\n检索给出候选文档或片段，用户仍需自己阅读；问答在检索基础上完成归纳，并保留引用，用户可以直接核对结论。\n三、为什么要做溯源\n大模型可能生成看似合理但没有依据的内容。强制引用、块级校验与原文跳转，是把生成结果转化为",
+            "score": 0.3154,
+            "cited": false
+          }
+        ],
+        "created_at": "2026-11-22T19:58:54.412895"
+      }
+    ]
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "15284",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:54 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "messages 长度 >= 4",
+      "ok": true,
+      "detail": "messages 长度 = 8，预期 >= 4"
+    },
+    {
+      "label": "messages 存在满足条件的项",
+      "ok": true,
+      "detail": "messages 共 8 项，满足条件 4 项"
+    },
+    {
+      "label": "messages 存在满足条件的项",
+      "ok": true,
+      "detail": "messages 共 8 项，满足条件 4 项"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:54"
+}

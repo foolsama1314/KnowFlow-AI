@@ -1,0 +1,63 @@
+{
+  "id": "BKP-16",
+  "group": "备份恢复",
+  "title": "恢复后索引可用",
+  "purpose": "恢复后索引状态应为 completed，检索与向量数量一致。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents/index-summary"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 8,
+  "response": {
+    "total_documents": 4,
+    "completed_documents": 4,
+    "failed_documents": 0,
+    "pending_index": 0,
+    "total_chunks": 12,
+    "indexed_chunks": 12,
+    "index_status": {
+      "provider": "openai_compatible",
+      "model": "jina-embeddings-v3",
+      "dimension": 1024,
+      "status": "completed",
+      "chunk_count": 12,
+      "error": null,
+      "updated_at": "2026-11-22T19:59:25.827558"
+    },
+    "running_tasks": 0
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "327",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:59:24 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "index_status.status 等于 'completed'",
+      "ok": true,
+      "detail": "index_status.status = 'completed'，预期 'completed'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "indexed=12, total=12"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:59:25"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "DOC-16",
+  "group": "文档管理",
+  "title": "上传后异步处理完成",
+  "purpose": "等待后台任务完成后，确认文档状态、文本块和索引状态均真实落库。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/documents/a9538bd8-9ab5-4403-88a3-e0e1a61dfbde"
+  },
+  "expected": [
+    200
+  ],
+  "actual_status": 200,
+  "reason": "OK",
+  "duration_ms": 17,
+  "response": {
+    "id": "a9538bd8-9ab5-4403-88a3-e0e1a61dfbde",
+    "name": "api-test-upload",
+    "original_name": "api-test-upload.txt",
+    "file_type": "txt",
+    "file_size": 474,
+    "status": "completed",
+    "page_count": 1,
+    "chunk_count": 1,
+    "summary": null,
+    "index_status": "unknown",
+    "last_error": null,
+    "created_at": "2026-11-22T19:58:15.512434",
+    "updated_at": "2026-11-22T19:58:17.399513"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "336",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:16 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [200]，实际 200"
+    },
+    {
+      "label": "status 等于 'completed'",
+      "ok": true,
+      "detail": "status = 'completed'，预期 'completed'"
+    },
+    {
+      "label": "chunk_count >= 1",
+      "ok": true,
+      "detail": "chunk_count = 1，预期 >= 1"
+    },
+    {
+      "label": "original_name 等于 'api-test-upload.txt'",
+      "ok": true,
+      "detail": "original_name = 'api-test-upload.txt'，预期 'api-test-upload.txt'"
+    },
+    {
+      "label": "附加校验",
+      "ok": true,
+      "detail": "任务状态 = completed"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "单文档详情接口当前不回填 index_status，单独由 DOC-36 验证该缺陷。",
+  "at": "2026-11-22T19:58:17"
+}

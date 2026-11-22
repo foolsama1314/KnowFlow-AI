@@ -1,0 +1,39 @@
+{
+  "id": "CHAT-08",
+  "group": "智能问答",
+  "title": "会话不存在",
+  "purpose": "随机 UUID 读取会话应返回 404。",
+  "request": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8011/api/v1/chat/sessions/f8b853b6-5627-409e-8316-58795fb58465"
+  },
+  "expected": [
+    404
+  ],
+  "actual_status": 404,
+  "reason": "Not Found",
+  "duration_ms": 19,
+  "response": {
+    "detail": "问答会话不存在",
+    "code": "not_found"
+  },
+  "response_headers": {
+    "connection": "close",
+    "content-length": "53",
+    "content-type": "application/json",
+    "date": "Sun, 22 Nov 2026 11:58:43 GMT",
+    "server": "uvicorn",
+    "vary": "Origin"
+  },
+  "checks": [
+    {
+      "label": "HTTP 状态码符合预期",
+      "ok": true,
+      "detail": "预期 [404]，实际 404"
+    }
+  ],
+  "passed": true,
+  "error": "",
+  "note": "",
+  "at": "2026-11-22T19:58:43"
+}
